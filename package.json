@@ -1,0 +1,54 @@
+{
+  "name": "react-native-photo-selector",
+  "description": "A React Native component providing images selection from camera roll ",
+  "version": "1.0.5",
+  "author": "blue",
+  "dependencies": {
+    "lodash": "^4.17.15",
+    "react": "16.11.0",
+    "react-native": "^0.62.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.0",
+    "@babel/plugin-proposal-decorators": "^7.10.0",
+    "@react-native-community/cameraroll": "^1.7.2",
+    "@react-native-community/eslint-config": "^1.1.0",
+    "@types/react-native": "^0.62.11",
+    "@typescript-eslint/eslint-plugin": "^3.0.1",
+    "@typescript-eslint/parser": "^3.0.1",
+    "eslint": "^7.1.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.20.0",
+    "eslint-plugin-react-hooks": "^4.0.4",
+    "metro-react-native-babel-preset": "^0.59.0",
+    "react-native-typescript-transformer": "^1.2.13",
+    "typescript": "^3.9.3"
+  },
+  "bugs": {
+    "url": "https://github.com/skqksh/react-native-photo-selector/issues"
+  },
+  "homepage": "https://github.com/skqksh/react-native-photo-selector#readme",
+  "keywords": [
+    "cameraroll",
+    "ios",
+    "android",
+    "picker",
+    "react-component",
+    "react-native",
+    "react-native-component"
+  ],
+  "license": "MIT",
+  "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/skqksh/react-native-photo-selector.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublish": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
