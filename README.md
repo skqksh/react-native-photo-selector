@@ -30,13 +30,15 @@ import CameraRollSelector from 'react-native-photo-selector';
 
 ## Props (* : required)
 
-- (*)`callback` : Callback function when images was selected. (is required!). Return a selected image array and current selected image.
-|return|value||
-|---|---|---|
-|selectedImages| PhotoProps[]||
-|currentImage| PhotoProps||
+- (*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
+
+|return|value|
+|---|---|
+|selectedImages| PhotoProps[]|
+|currentImage| PhotoProps|
 
 - `initialNumToRender` : Specifies how many rows we want to render on our first render pass. 
+
 |type|options|default|
 |---|---|---|
 |number| 0 < value |5|
