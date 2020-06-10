@@ -3,22 +3,29 @@ import {
   Platform,
   StyleSheet,
   View,
+  ViewStyle,
   Text,
   FlatList,
   ActivityIndicator,
   TextStyle,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
+import { RNCameraProps } from 'react-native-camera'
+
 import Row from './components/Row'
+
+export interface PhotoSelectorOptions {
+  type: 'camera'
+}
 
 export interface PhotoProps {
   filename: string
   uri: string
   height: number
   width: number
-  fileSize: number
+  fileSize?: number
   isStored?: boolean | undefined
-  playableDuration: number
+  playableDuration?: number
 }
 
 export interface PhotoSelectorProps {
@@ -40,6 +47,12 @@ export interface PhotoSelectorProps {
   emptyText?: string
   emptyTextStyle?: TextStyle
   loader?: JSX.Element
+  useCamera?: boolean
+  cameraButtonIcon?: JSX.Element
+  cameraPreviewProps?: RNCameraProps
+  cameraPreviewStyle?: ViewStyle
+  cameraFlipIcon?: JSX.Element
+  cameraCaptureIcon?: JSX.Element
 }
 
 // helper functions
@@ -49,9 +62,11 @@ const arrayObjectIndexOf = (
 ): number => array.map((o) => o.uri).indexOf(value)
 
 const nEveryRow = (
-  data: CameraRoll.PhotoIdentifier[],
-  n: number
-): (CameraRoll.PhotoIdentifier | null)[][] => {
+  data: (PhotoProps | PhotoSelectorOptions)[],
+  n: number,
+  useCamera: boolean
+): (PhotoProps | PhotoSelectorOptions | null)[][] => {
+  if (useCamera) data = [{ type: 'camera' }, ...data]
   const result = []
   let temp = []
 
@@ -88,17 +103,21 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     },
     selected = [],
     emptyText = 'No photos.',
+    useCamera = false,
+    cameraButtonIcon,
+    cameraPreviewProps,
+    cameraPreviewStyle,
+    cameraFlipIcon,
+    cameraCaptureIcon,
     ...rest
   } = props
-  const [images, setImages] = useState<CameraRoll.PhotoIdentifier[]>(
-    []
-  )
+  const [images, setImages] = useState<PhotoProps[]>([])
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
   const [noMore, setNoMore] = useState<boolean>(false)
   const [data, setData] = useState<
-    (CameraRoll.PhotoIdentifier | null)[][]
+    (PhotoProps | PhotoSelectorOptions | null)[][]
   >([])
   useEffect(() => {
     fetch()
@@ -118,10 +137,13 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     if (assets.length > 0) {
+      const asstesImages = assets.map(({ node: { image } }) => {
+        return image
+      })
       setLastCursor(data.page_info.end_cursor)
-      const newImages = images.concat(assets)
+      const newImages = images.concat(asstesImages)
       setImages(newImages)
-      const rows = nEveryRow(newImages, imagesPerRow)
+      const rows = nEveryRow(newImages, imagesPerRow, useCamera)
       if (rows) setData(rows)
     }
 
@@ -157,7 +179,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     )
   }
 
-  function selectImage(image: PhotoProps): void {
+  function selectImage(
+    image: PhotoProps,
+    oriImages?: PhotoProps[]
+  ): void {
     const index = arrayObjectIndexOf(selected, image.uri)
 
     if (index >= 0) {
@@ -171,29 +196,47 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       }
     }
 
-    setData(nEveryRow(images, imagesPerRow))
+    setData(nEveryRow(oriImages || images, imagesPerRow, useCamera))
 
     callback(selected, image)
   }
 
+  function takePhoto(image: PhotoProps): void {
+    setImages((oriImage) => {
+      const oriImages = [image].concat(oriImage)
+      selectImage(image, oriImages)
+      return oriImages
+    })
+  }
+
   function renderRow(
-    item: (CameraRoll.PhotoIdentifier | null)[]
+    item: (PhotoProps | PhotoSelectorOptions | null)[]
   ): JSX.Element {
     // item is an array of objects
     const isSelected = item.map((imageItem) => {
-      if (!imageItem) return false
-      const { uri } = imageItem.node.image
-      return arrayObjectIndexOf(selected, uri) >= 0
+      if (imageItem !== null && 'uri' in imageItem) {
+        const { uri } = imageItem
+        return arrayObjectIndexOf(selected, uri) >= 0
+      }
+      return false
     })
     return (
       <Row
-        rowData={item}
-        isSelected={isSelected}
-        selectImage={selectImage}
-        imagesPerRow={imagesPerRow}
-        containerWidth={props.containerWidth}
-        imageMargin={imageMargin}
-        selectedMarker={props.selectedMarker}
+        {...{
+          rowData: item,
+          isSelected,
+          selectImage,
+          takePhoto,
+          imagesPerRow,
+          imageMargin,
+          containerWidth: props.containerWidth,
+          selectedMarker: props.selectedMarker,
+          cameraButtonIcon,
+          cameraPreviewProps,
+          cameraPreviewStyle,
+          cameraFlipIcon,
+          cameraCaptureIcon,
+        }}
       />
     )
   }
@@ -220,9 +263,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         initialNumToRender={initialNumToRender}
         onEndReached={onEndReached}
         renderItem={({ item }): JSX.Element => renderRow(item)}
-        keyExtractor={(item, i): string =>
-          item[0] ? `${item[0].node.image.uri}-${i}` : `${i}`
-        }
+        keyExtractor={(item, i): string => `photo-selector-${i}`}
         data={data}
         extraData={selected}
       />

@@ -6,7 +6,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native'
-import CameraRoll from '@react-native-community/cameraroll'
 import { PhotoProps } from '../index'
 
 const CheckIcon = (): JSX.Element => {
@@ -14,7 +13,7 @@ const CheckIcon = (): JSX.Element => {
 }
 
 export interface ItemProps {
-  item: CameraRoll.PhotoIdentifier
+  item: PhotoProps
   selected: boolean
   selectedMarker: any
   imageMargin: number
@@ -51,18 +50,16 @@ const Item = ({
 
   const marker = selectedMarker || <CheckIcon />
 
-  const { image } = item.node
-
   return (
     <TouchableOpacity
       style={{
         marginBottom: imageMargin,
         marginRight: imageMargin,
       }}
-      onPress={(): void => _handleClick(image)}
+      onPress={(): void => _handleClick(item)}
     >
       <Image
-        source={{ uri: image.uri }}
+        source={{ uri: item.uri }}
         style={{ height: imageSize, width: imageSize }}
       />
       {selected ? marker : null}

@@ -1,25 +1,25 @@
 import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import CameraRoll from '@react-native-community/cameraroll'
+import { StyleSheet, View, ViewStyle } from 'react-native'
+import { RNCameraProps } from 'react-native-camera'
 
+import { PhotoSelectorOptions, PhotoProps } from '../index'
 import ImageItem from './Item'
+import CameraButton from './CameraButton'
 
 export interface RowProps {
   selectedMarker: any
   imageMargin: number
   imagesPerRow: number
   containerWidth?: number
-  rowData: (CameraRoll.PhotoIdentifier | null)[]
+  rowData: (PhotoProps | PhotoSelectorOptions | null)[]
   isSelected: boolean[]
-  selectImage: (item: {
-    filename: string
-    uri: string
-    height: number
-    width: number
-    fileSize: number
-    isStored?: boolean | undefined
-    playableDuration: number
-  }) => void
+  selectImage: (item: PhotoProps) => void
+  takePhoto: (item: PhotoProps) => void
+  cameraButtonIcon?: JSX.Element
+  cameraPreviewProps?: RNCameraProps
+  cameraPreviewStyle?: ViewStyle
+  cameraFlipIcon?: JSX.Element
+  cameraCaptureIcon?: JSX.Element
 }
 
 const Row = ({
@@ -30,9 +30,35 @@ const Row = ({
   rowData,
   isSelected,
   selectImage,
+  takePhoto,
+  cameraButtonIcon,
+  cameraPreviewProps,
+  cameraPreviewStyle,
+  cameraFlipIcon,
+  cameraCaptureIcon,
 }: RowProps): JSX.Element => {
-  function renderImage(item: any, selected: boolean): JSX.Element {
-    const { uri } = item.node.image
+  function renderImage(
+    item: PhotoProps | PhotoSelectorOptions,
+    selected: boolean
+  ): JSX.Element {
+    if ('type' in item) {
+      return (
+        <CameraButton
+          {...{
+            imageMargin,
+            imagesPerRow,
+            containerWidth,
+            takePhoto,
+            cameraButtonIcon,
+            cameraPreviewProps,
+            cameraPreviewStyle,
+            cameraFlipIcon,
+            cameraCaptureIcon,
+          }}
+        />
+      )
+    }
+    const { uri } = item
     return (
       <ImageItem
         key={uri}
