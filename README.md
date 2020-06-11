@@ -2,6 +2,17 @@
 
 CameraRoll Picker component for React native
 
+## DEMO
+
+- basic
+
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/normal.gif"><img src="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/normal.gif" width="350"></a>
+
+- usecamera
+
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif" width="350"></a>
+
+
 ## Add to Project
 
 - Install Dependency libraries with Android & IOS settings
@@ -163,6 +174,16 @@ const Demo = () => {
 | type        | default       |
 | ----------- | ------------- |
 | JSX.Element | 'circle mark' |
+
+## Run Example
+- To run the example app, you have to check the permissions of the app
+```
+$ git clone https://github.com/skqksh/react-native-photo-selector
+$ cd react-native-photo-selector
+$ cd example
+$ npm install
+$ npm run android
+```
 
 ## ETC
 
