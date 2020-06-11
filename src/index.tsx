@@ -112,6 +112,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
+  const [localSelected, setLocalSelected] = useState<PhotoProps[]>(
+    selected
+  )
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
@@ -183,22 +186,22 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     image: PhotoProps,
     oriImages?: PhotoProps[]
   ): void {
-    const index = arrayObjectIndexOf(selected, image.uri)
+    const index = arrayObjectIndexOf(localSelected, image.uri)
 
     if (index >= 0) {
-      selected.splice(index, 1)
+      localSelected.splice(index, 1)
     } else {
       if (selectSingleItem) {
-        selected.splice(0, selected.length)
+        localSelected.splice(0, localSelected.length)
       }
-      if (selected.length < maximum) {
-        selected.push(image)
+      if (localSelected.length < maximum) {
+        localSelected.push(image)
       }
     }
 
     setData(nEveryRow(oriImages || images, imagesPerRow, useCamera))
-
-    callback(selected, image)
+    setLocalSelected(localSelected)
+    callback(localSelected, image)
   }
 
   function takePhoto(image: PhotoProps): void {
@@ -216,7 +219,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     const isSelected = item.map((imageItem) => {
       if (imageItem !== null && 'uri' in imageItem) {
         const { uri } = imageItem
-        return arrayObjectIndexOf(selected, uri) >= 0
+        return arrayObjectIndexOf(localSelected, uri) >= 0
       }
       return false
     })
