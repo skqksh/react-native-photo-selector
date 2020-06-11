@@ -14,8 +14,9 @@ const CheckIcon = (): JSX.Element => {
 
 export interface ItemProps {
   item: PhotoProps
-  selected: boolean
-  selectedMarker: any
+  selectedIndex: number
+  isSelected: boolean
+  selectedMarker?: ((index: number) => JSX.Element) | JSX.Element
   imageMargin: number
   imagesPerRow: number
   containerWidth?: number
@@ -24,7 +25,8 @@ export interface ItemProps {
 
 const Item = ({
   item,
-  selected,
+  selectedIndex,
+  isSelected,
   selectedMarker,
   imageMargin,
   imagesPerRow,
@@ -48,7 +50,14 @@ const Item = ({
     onClick(item)
   }
 
-  const marker = selectedMarker || <CheckIcon />
+  let marker = <CheckIcon />
+  if (selectedMarker) {
+    if (typeof selectedMarker === 'function') {
+      marker = selectedMarker(selectedIndex + 1)
+    } else {
+      marker = selectedMarker
+    }
+  }
 
   return (
     <TouchableOpacity
@@ -62,7 +71,7 @@ const Item = ({
         source={{ uri: item.uri }}
         style={{ height: imageSize, width: imageSize }}
       />
-      {selected ? marker : null}
+      {isSelected ? marker : null}
     </TouchableOpacity>
   )
 }

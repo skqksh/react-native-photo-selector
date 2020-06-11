@@ -42,7 +42,7 @@ export interface PhotoSelectorProps {
     currentImage: PhotoProps
   ) => void
   selected?: any[]
-  selectedMarker?: JSX.Element
+  selectedMarker?: ((index: number) => JSX.Element) | JSX.Element
   backgroundColor?: string
   emptyText?: string
   emptyTextStyle?: TextStyle
@@ -216,18 +216,18 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     item: (PhotoProps | PhotoSelectorOptions | null)[]
   ): JSX.Element {
     // item is an array of objects
-    const isSelected = item.map((imageItem) => {
+    const selectedIndexOf = item.map((imageItem) => {
       if (imageItem !== null && 'uri' in imageItem) {
         const { uri } = imageItem
-        return arrayObjectIndexOf(localSelected, uri) >= 0
+        return arrayObjectIndexOf(localSelected, uri)
       }
-      return false
+      return -1
     })
     return (
       <Row
         {...{
           rowData: item,
-          isSelected,
+          selectedIndexOf,
           selectImage,
           takePhoto,
           imagesPerRow,

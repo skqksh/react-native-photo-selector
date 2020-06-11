@@ -7,12 +7,12 @@ import ImageItem from './Item'
 import CameraButton from './CameraButton'
 
 export interface RowProps {
-  selectedMarker: any
+  selectedMarker?: ((index: number) => JSX.Element) | JSX.Element
   imageMargin: number
   imagesPerRow: number
   containerWidth?: number
   rowData: (PhotoProps | PhotoSelectorOptions | null)[]
-  isSelected: boolean[]
+  selectedIndexOf: number[]
   selectImage: (item: PhotoProps) => void
   takePhoto: (item: PhotoProps) => void
   cameraButtonIcon?: JSX.Element
@@ -28,7 +28,7 @@ const Row = ({
   imagesPerRow,
   containerWidth,
   rowData,
-  isSelected,
+  selectedIndexOf,
   selectImage,
   takePhoto,
   cameraButtonIcon,
@@ -39,7 +39,7 @@ const Row = ({
 }: RowProps): JSX.Element => {
   function renderImage(
     item: PhotoProps | PhotoSelectorOptions,
-    selected: boolean
+    selectedIndex: number
   ): JSX.Element {
     if ('type' in item) {
       return (
@@ -63,7 +63,8 @@ const Row = ({
       <ImageItem
         key={uri}
         item={item}
-        selected={selected}
+        selectedIndex={selectedIndex}
+        isSelected={selectedIndex > -1}
         imageMargin={imageMargin}
         selectedMarker={selectedMarker}
         imagesPerRow={imagesPerRow}
@@ -76,7 +77,7 @@ const Row = ({
     if (item === null) {
       return null
     }
-    return renderImage(item, isSelected[index])
+    return renderImage(item, selectedIndexOf[index])
   })
 
   return <View style={styles.row}>{items}</View>
