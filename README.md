@@ -110,10 +110,11 @@ const Demo = () => {
 | number | 'device width' |
 
 - `selectedMarker` : Custom selected image marker component.
+  - 'selectedNumber' is starts from 1
 
 | type        | default       |
 | ----------- | ------------- |
-| JSX.Element | 'circle mark' |
+| JSX.Element, (selectedNumber:number)=>JSX.Element | 'circle mark' |
 
 - `backgroundColor` : Set background color.
 
