@@ -58,6 +58,7 @@ const CameraScreen = ({
       <View>
         <RNCamera
           style={[styles.preview, cameraPreviewStyle]}
+          captureAudio={false}
           {...{
             ref: cameraRef,
             type: cameraType,

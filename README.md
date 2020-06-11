@@ -4,33 +4,40 @@ CameraRoll Picker component for React native
 
 ## Add to Project
 
+- Install Dependency libraries with Android & IOS settings
+  - [react-native-camera](https://github.com/react-native-community/react-native-camera)
+  - [react-native-cameraroll](https://github.com/react-native-community/react-native-cameraroll)
+
+```
+$ npm i @react-native-community/cameraroll react-native-camera
+```
+
 - Install component through npm
 
 ```
-$ npm install react-native-photo-selector --save
-```
-
-- Install CameraRoll from @react-native-community
-
-```
-$ npm install @react-native-community/cameraroll
-```
-
-- Require component
-
-```
-import CameraRollSelector from 'react-native-photo-selector';
+$ npm i react-native-photo-selector
 ```
 
 ## Basic Usage
 
 ```js
-<CameraRollSelector callback={this.getSelectedImages} />
+import PhotoSelector, { PhotoProps } from 'react-native-photo-selector';
+
+...
+const Demo = () => {
+    const _callback = (images: PhotoProps[], image: PhotoProps) => {
+        console.log('selected images :', images);
+        console.log('current image :', image);
+    };
+
+    return <PhotoSelector callback={_callback} />
+}
+
 ```
 
-## Props (* : required)
+## Props (\* : required)
 
-- (*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
+- (\*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
 
 | return         | value        |
 | -------------- | ------------ |
@@ -78,11 +85,13 @@ import CameraRollSelector from 'react-native-photo-selector';
 | type   | default |
 | ------ | ------- |
 | number | 3       |
+
 - `imageMargin` : Margin size of one image.
 
 | type   | default |
 | ------ | ------- |
 | number | 5       |
+
 - `containerWidth` : Width of camer roll picker container.
 
 | type   | default        |
@@ -149,14 +158,13 @@ import CameraRollSelector from 'react-native-photo-selector';
 | ----------- | -------------- |
 | JSX.Element | flip png image |
 
-
 - `cameraCaptureIcon`: Set camera preview style.
 
 | type        | default       |
 | ----------- | ------------- |
 | JSX.Element | 'circle mark' |
 
-
 ## ETC
+
 - Typescript Support
 - This library is based from [react-native-camera-roll-picker](https://www.npmjs.com/package/react-native-camera-roll-picker)
