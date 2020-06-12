@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 import { RNCameraProps } from 'react-native-camera'
 
@@ -7,6 +7,7 @@ import ImageItem from './Item'
 import CameraButton from './CameraButton'
 
 export interface RowProps {
+  rowIndex: number
   selectedMarker?: ((index: number) => JSX.Element) | JSX.Element
   imageMargin: number
   imagesPerRow: number
@@ -23,6 +24,7 @@ export interface RowProps {
 }
 
 const Row = ({
+  rowIndex,
   selectedMarker,
   imageMargin,
   imagesPerRow,
@@ -58,10 +60,8 @@ const Row = ({
         />
       )
     }
-    const { uri } = item
     return (
       <ImageItem
-        key={uri}
         item={item}
         selectedIndex={selectedIndex}
         isSelected={selectedIndex > -1}
@@ -74,13 +74,18 @@ const Row = ({
     )
   }
   const items = rowData.map((item, index) => {
-    if (item === null) {
-      return null
-    }
-    return renderImage(item, selectedIndexOf[index])
+    return (
+      <Fragment key={`photo-selector-row-${rowIndex}-${index}`}>
+        {item && renderImage(item, selectedIndexOf[index])}
+      </Fragment>
+    )
   })
 
-  return <View style={styles.row}>{items}</View>
+  return (
+    <View key={`photo-selector-row-${rowIndex}`} style={styles.row}>
+      {items}
+    </View>
+  )
 }
 
 export default Row

@@ -213,7 +213,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   }
 
   function renderRow(
-    item: (PhotoProps | PhotoSelectorOptions | null)[]
+    item: (PhotoProps | PhotoSelectorOptions | null)[],
+    rowIndex: number
   ): JSX.Element {
     // item is an array of objects
     const selectedIndexOf = item.map((imageItem) => {
@@ -226,6 +227,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     return (
       <Row
         {...{
+          rowIndex,
           rowData: item,
           selectedIndexOf,
           selectImage,
@@ -265,7 +267,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         ListFooterComponent={renderFooterSpinner}
         initialNumToRender={initialNumToRender}
         onEndReached={onEndReached}
-        renderItem={({ item }): JSX.Element => renderRow(item)}
+        renderItem={({ item, index }): JSX.Element =>
+          renderRow(item, index)
+        }
         keyExtractor={(item, i): string => `photo-selector-${i}`}
         data={data}
         extraData={selected}
