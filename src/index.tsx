@@ -132,7 +132,13 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
   }
 
-  function appendImages(data: CameraRoll.PhotoIdentifiersPage): void {
+  function appendImages({
+    data,
+    init,
+  }: {
+    data: CameraRoll.PhotoIdentifiersPage
+    init?: boolean
+  }): void {
     const assets = data.edges
 
     if (!data.page_info.has_next_page) {
@@ -144,7 +150,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         return image
       })
       setLastCursor(data.page_info.end_cursor)
-      const newImages = images.concat(asstesImages)
+      const newImages = init
+        ? asstesImages
+        : images.concat(asstesImages)
       setImages(newImages)
       const rows = nEveryRow(newImages, imagesPerRow, useCamera)
       if (rows) setData(rows)
@@ -161,7 +169,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
   }
 
-  function doFetch(): void {
+  function doFetch(init?: boolean): void {
     const fetchParams: CameraRoll.GetPhotosParams = {
       first: 100,
       groupTypes: groupTypes,
@@ -173,12 +181,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       delete fetchParams.groupTypes
     }
 
-    if (lastCursor) {
-      fetchParams.after = lastCursor
-    }
+    fetchParams.after = init ? undefined : lastCursor
 
     CameraRoll.getPhotos(fetchParams).then((data) =>
-      appendImages(data)
+      appendImages({ data, init })
     )
   }
 
@@ -204,12 +210,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     callback(localSelected, image)
   }
 
-  function takePhoto(image: PhotoProps): void {
-    setImages((oriImage) => {
-      const oriImages = [image].concat(oriImage)
-      selectImage(image, oriImages)
-      return oriImages
-    })
+  function takePhoto(): void {
+    doFetch(true)
   }
 
   function renderRow(

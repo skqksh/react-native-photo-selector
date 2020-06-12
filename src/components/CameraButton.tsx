@@ -10,14 +10,13 @@ import {
 } from 'react-native'
 import { RNCameraProps } from 'react-native-camera'
 
-import { PhotoProps } from '../index'
 import CameraScreen from './CameraScreen'
 
 interface CameraButtonProps {
   imageMargin: number
   imagesPerRow: number
   containerWidth?: number
-  takePhoto: (item: PhotoProps) => void
+  takePhoto: () => void
   cameraButtonIcon?: JSX.Element
   cameraPreviewProps?: RNCameraProps
   cameraPreviewStyle?: ViewStyle

@@ -15,7 +15,7 @@ export interface RowProps {
   rowData: (PhotoProps | PhotoSelectorOptions | null)[]
   selectedIndexOf: number[]
   selectImage: (item: PhotoProps) => void
-  takePhoto: (item: PhotoProps) => void
+  takePhoto: () => void
   cameraButtonIcon?: JSX.Element
   cameraPreviewProps?: RNCameraProps
   cameraPreviewStyle?: ViewStyle

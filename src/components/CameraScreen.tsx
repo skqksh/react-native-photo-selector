@@ -8,12 +8,11 @@ import {
   StyleSheet,
 } from 'react-native'
 
-import { PhotoProps } from '../index'
 import { RNCamera, RNCameraProps } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll'
 
 interface CameraScreenProps {
-  takePhoto: (item: PhotoProps) => void
+  takePhoto: () => void
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>
   cameraPreviewProps?: RNCameraProps
   cameraPreviewStyle?: ViewStyle
@@ -42,19 +41,10 @@ const CameraScreen = ({
   const _takePhoto = async (): Promise<void> => {
     if (cameraRef.current) {
       cameraRef.current.takePictureAsync().then((data) => {
-        const filename =
-          data.uri.split('/').pop() || new Date().getTime().toString()
-
-        CameraRoll.save(data.uri, { type: 'photo' })
-
-        setShowModal(false)
-        const imageInfo = {
-          filename,
-          uri: data.uri,
-          height: data.height,
-          width: data.width,
-        }
-        takePhoto(imageInfo)
+        CameraRoll.save(data.uri, { type: 'photo' }).then(() => {
+          setShowModal(false)
+          takePhoto()
+        })
       })
     }
   }
