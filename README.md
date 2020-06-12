@@ -12,7 +12,6 @@ CameraRoll Picker component for React native
 
 <a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/EH_d-wlpgwSi7RqL6C5TqcIXorlvfCmnbcXBG3XZK9g-rhO4kp8M46A6tVm0yrICTXx3tkkNMCrH0cQ6eK7xMQP7VUgbL8_Xdt48_NmB3P6bMalI9LhLn4IbJFjbo8HuviDQsT4QAyUO0EbQYf7U-O9BctSTYGDW1O9kI-v2V42fVrgu6_4fPOVUrtjlrAJXHXLqLcESZw-9_wyQ35vhmfYoGLWrWRAo_xgWz-e965HHfeeViGb56dLKuXxJ00aPoDJHP3TzDqZt9jpE_kY7jUL9oZ6MHAnOpqsSQjQ27u22D3zlOaayQKBZMX-CV9DCfNJsKUjVEo6nrleJ4enqi--58VI-aySIrCm7qHErr7aza_s_r1ek4zKjNZY49ntaW8O5AiRgvCA6xk-Ja-pPYX6r02CiIrpimR4YgGkWtTSufW7TbHe1y2qskJi0ygVRcy75kZIh-ZC6DrJXhhobCScfHQPAPTu_Asl5k8mj9a2mrlgO5XDt53FQS9shDZAxffKoxgv-WORfIcuxE_a3ufQpxadRXQ9AGOd9yhtEU0fWabNPFv6hCn0yEgTMu92bRx9bMFvFDkLmF9CCP47EBnvh2x-lFop65hNJCx_WQtXLXCoT2UDU0B-DDJrFSyqv9aFmEXvL25rqocVZeQVBLnn1zczr1h-YEl2HRJHUhD6NhiroWSTvXnWuRyR0zw=w458-h992-no?authuser=0" width="350"></a>
 
-
 ## Add to Project
 
 - Install Dependency libraries with Android & IOS settings
@@ -48,136 +47,179 @@ const Demo = () => {
 
 ## Props (\* : required)
 
-- (\*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
+### (\*)`callback`
+
+#### : Callback function when images was selected. Return a selected image array and current selected image.
 
 | return         | value        |
 | -------------- | ------------ |
 | selectedImages | PhotoProps[] |
 | currentImage   | PhotoProps   |
 
-- `initialNumToRender` : Specifies how many rows we want to render on our first render pass.
+### `initialNumToRender`
 
-| type   | options   | default |
-| ------ | --------- | ------- |
-| number | 0 < value | 5       |
+#### : How many items to render in the initial batch
 
-- `groupTypes` : The group where the photos will be fetched
+| type   | default | desc             |
+| ------ | ------- | ---------------- |
+| number | 5       | Flatlist's props |
+
+### `groupTypes`
+
+#### : The group where the photos will be fetched
 
 | type                 | options                                                                         | default       |
 | -------------------- | ------------------------------------------------------------------------------- | ------------- |
 | CameraRoll.GroupType | "Album" , "All" , "Event" , "Faces" , "Library" , "PhotoStream" , "SavedPhotos" | "SavedPhotos" |
 
-- `assetType` : The asset type
+### `assetType`
+
+#### : The asset type
 
 | type                 | options                    | default  |
 | -------------------- | -------------------------- | -------- |
 | CameraRoll.GroupType | 'Photos', 'Videos' , 'All' | "Photos" |
 
-- `selected` : Already be selected images array. (Default: [])
+### `selected`
+
+#### : Already be selected images array. (Default: [])
 
 | type  | default |
 | ----- | ------- |
 | any[] | []      |
 
-- `selectSingleItem` : Boolean to select only one single image at time.
+### `selectSingleItem`
+
+#### : Boolean to select only one single image at time.
 
 | type    | default |
 | ------- | ------- |
 | boolean | false   |
 
-- `maximum` : Maximum number of selected images.
+### `maximum`
+
+#### : Maximum number of selected images.
 
 | type   | default |
 | ------ | ------- |
 | number | 15      |
 
-- `imagesPerRow` : Number of images per row.
+### `imagesPerRow`
+
+#### : Number of images per row.
 
 | type   | default |
 | ------ | ------- |
 | number | 3       |
 
-- `imageMargin` : Margin size of one image.
+### `imageMargin`
+
+#### : Margin size of one image.
 
 | type   | default |
 | ------ | ------- |
 | number | 5       |
 
-- `containerWidth` : Width of camer roll picker container.
+### `containerWidth`
+
+#### : Width of camer roll picker container.
 
 | type   | default        |
 | ------ | -------------- |
 | number | 'device width' |
 
-- `selectedMarker` : Custom selected image marker component.
-  - 'selectedNumber' is starts from 1
+### `selectedMarker`
 
-| type        | default       |
-| ----------- | ------------- |
-| JSX.Element, (selectedNumber:number)=>JSX.Element | 'circle mark' |
+#### : Custom selected image marker component.
 
-- `backgroundColor` : Set background color.
+| type                                                | default       | desc                              |
+| --------------------------------------------------- | ------------- | --------------------------------- |
+| JSX.Element \| (selectedNumber:number)=>JSX.Element | 'circle mark' | 'selectedNumber' is starts from 1 |
+
+### `backgroundColor`
+
+#### : Set background color.
 
 | type   | default |
 | ------ | ------- |
 | string | 'white' |
 
-- `emptyText`: Text to display instead of a list when there are no photos found.
+### `emptyText`
+
+#### : Text to display instead of a list when there are no photos found.
 
 | type   | default      |
 | ------ | ------------ |
 | string | "No photos." |
 
-- `emptyTextStyle`: Styles to apply to the `emptyText`.
+### `emptyTextStyle`
+
+#### : Styles to apply to the `emptyText`.
 
 | type   | default               |
 | ------ | --------------------- |
 | string | `textAlign: 'center'` |
 
-- `loader`: Loader component node.
+### `loader`
+
+#### : Loader component node.
 
 | type        | default                 |
 | ----------- | ----------------------- |
 | JSX.Element | `<ActivityIndicator />` |
 
-- `useCamera`: If use camera capture
+### `useCamera`
+
+#### : If use camera capture
 
 | type    | default |
 | ------- | ------- |
 | boolean | false   |
 
-- `cameraButtonIcon`: cameraButtonIcon component node.
+### `cameraButtonIcon`
+
+#### : cameraButtonIcon component node.
 
 | type        | default          |
 | ----------- | ---------------- |
 | JSX.Element | camera png image |
 
-- `cameraPreviewProps`: props of react-native-camera.
+### `cameraPreviewProps`
+
+#### : props of react-native-camera.
 
 | type          |
 | ------------- |
 | RNCameraProps |
 
-- `cameraPreviewStyle`: Set camera preview style.
+### `cameraPreviewStyle`
+
+#### : Set camera preview style.
 
 | type      |
 | --------- |
 | ViewStyle |
 
-- `cameraFlipIcon`: Set camera preview style.
+### `cameraFlipIcon`
+
+#### : Set camera preview style.
 
 | type        | default        |
 | ----------- | -------------- |
 | JSX.Element | flip png image |
 
-- `cameraCaptureIcon`: Set camera preview style.
+### `cameraCaptureIcon`
+
+#### : Set camera preview style.
 
 | type        | default       |
 | ----------- | ------------- |
 | JSX.Element | 'circle mark' |
 
 ## Run Example
+
 - To run the example app, you have to check the permissions of the app
+
 ```
 $ git clone https://github.com/skqksh/react-native-photo-selector
 $ cd react-native-photo-selector
