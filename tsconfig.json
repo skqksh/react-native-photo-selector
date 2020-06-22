@@ -19,5 +19,5 @@
     "baseUrl": ".",
     "paths": {}
   },
-  "include": ["."]
+  "include": ["./src"]
 }
