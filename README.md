@@ -4,13 +4,11 @@ CameraRoll Picker component for React native
 
 ## DEMO
 
-- basic
+### usecamera(option) & imageZoom(option)
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/normal.gif"><img src="https://lh3.googleusercontent.com/jUgl1rQAogo3FiGIL2gU86D_stRTgURtwMZ4VEV2xm7HIYHKDq5dI4wK-wWzmBsffLVgzR4roQZ07Rv-i8GZUhAIhiHu5FEAQYFOKa_IryGQyUKB1oLPMgUT1y9XBHfcVQLAnwbGNnE5zBhcSiHwhoOLLdUlChEl-3DUdi96a_Y6VQ98wNOhhB_s0U68LkpUsRcDf1k2Z6OYCQ8Sk_rABP_D0ge3zLUJtmF3RKMvSTXrJe8LQtJqeDm9d8yGCSpV4RR5C7M9ReTePuSdiN5p2aSV4ugt9R6MEO_grVP7fJ4enF6SNMwPo9QHSIcgknJKLlIhdMqypUu-8PWIvqQCryd0xHJ2wLhHIjuug3HYBodu8hPlZIMZU72cVhSAZoRRUfPBYUo5yds5iM4_npwEKFJ1znwkpr62qLbEYUXALPt9cXmtu8NpM-diYUnyPa8grml4xlHOPWalBAeTJGFqu7bWaQkGxbBvDkGSU6ndsdjYWraOk6ATtJK0ZS2JsG2dyvWQxsdpeG1GUr8wkekos6uvhhEbelIQ_nHERB0LcdEVxwIT_ybiqQnv33qBBuuLgtwtXmdlXk76vZQPtM8amKE07PggLp-lUK_QMTuqSCgWXH5vV-tvRL52nt7ZTEblwpoHd-HeUWzMZdZbuPUJPn-tDawNAQzkXhn0DdYYgCorRFcB6pyXZ_zIVTob3w=w458-h992-no?authuser=0" width="350"></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dMl3tpVQrndfeo8dorkJ387KITG5XI5QQzf-y3tSYRn-Fn898G32j8qg_Z7uktsV8FFPOmvC7eDU6Bq_MQwMG3dd-fuae4Z8Pxvx1HF9Awj9saYunQrDQmNhHHzt-ilNFWN3gc4ejtFvFqKM7F1eif=w222-h480-no?authuser=0" width="350"></a>
 
-- usecamera
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/EH_d-wlpgwSi7RqL6C5TqcIXorlvfCmnbcXBG3XZK9g-rhO4kp8M46A6tVm0yrICTXx3tkkNMCrH0cQ6eK7xMQP7VUgbL8_Xdt48_NmB3P6bMalI9LhLn4IbJFjbo8HuviDQsT4QAyUO0EbQYf7U-O9BctSTYGDW1O9kI-v2V42fVrgu6_4fPOVUrtjlrAJXHXLqLcESZw-9_wyQ35vhmfYoGLWrWRAo_xgWz-e965HHfeeViGb56dLKuXxJ00aPoDJHP3TzDqZt9jpE_kY7jUL9oZ6MHAnOpqsSQjQ27u22D3zlOaayQKBZMX-CV9DCfNJsKUjVEo6nrleJ4enqi--58VI-aySIrCm7qHErr7aza_s_r1ek4zKjNZY49ntaW8O5AiRgvCA6xk-Ja-pPYX6r02CiIrpimR4YgGkWtTSufW7TbHe1y2qskJi0ygVRcy75kZIh-ZC6DrJXhhobCScfHQPAPTu_Asl5k8mj9a2mrlgO5XDt53FQS9shDZAxffKoxgv-WORfIcuxE_a3ufQpxadRXQ9AGOd9yhtEU0fWabNPFv6hCn0yEgTMu92bRx9bMFvFDkLmF9CCP47EBnvh2x-lFop65hNJCx_WQtXLXCoT2UDU0B-DDJrFSyqv9aFmEXvL25rqocVZeQVBLnn1zczr1h-YEl2HRJHUhD6NhiroWSTvXnWuRyR0zw=w458-h992-no?authuser=0" width="350"></a>
 
 ## Add to Project
 
