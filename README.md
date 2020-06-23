@@ -208,11 +208,19 @@ const Demo = () => {
 
 ### `cameraCaptureIcon`
 
-#### : Set camera preview style.
+#### : Set able to zoom image 
 
 | type        | default       |
 | ----------- | ------------- |
 | JSX.Element | 'circle mark' |
+
+### `imageZoom`
+
+#### : Set camera preview style.
+
+| type        | default       |
+| ----------- | ------------- |
+| boolean | false |
 
 ## Run Example
 
