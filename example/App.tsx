@@ -20,6 +20,8 @@ const App = (): JSX.Element => {
         <CameraRollSelector
           callback={_callback}
           maximum={3}
+          assetType="All"
+          groupTypes="All"
           imagesPerRow={3}
           imageMargin={5}
           useCamera={true}
