@@ -53,5 +53,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>카메라 접근 권한</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>포토갤러리 접근 권한</string>
 </dict>
 </plist>
