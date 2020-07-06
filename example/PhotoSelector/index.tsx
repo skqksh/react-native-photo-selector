@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  AppState,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import { RNCameraProps } from 'react-native-camera'
@@ -138,10 +137,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 
   useEffect(() => {
     fetch()
-    AppState.addEventListener('focus', () => {
-      setLocalSelected([])
-      doFetch(true)
-    })
   }, [])
 
   function onEndReached(): void {
