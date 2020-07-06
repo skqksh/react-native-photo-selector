@@ -1,7 +1,9 @@
 import React from 'react'
 import { SafeAreaView, View, StyleSheet } from 'react-native'
 
-import CameraRollSelector, { PhotoProps } from './PhotoSelector'
+import CameraRollSelector, {
+  PhotoProps,
+} from 'react-native-photo-selector'
 
 const App = (): JSX.Element => {
   const _callback = (
