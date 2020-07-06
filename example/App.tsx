@@ -1,9 +1,7 @@
 import React from 'react'
 import { SafeAreaView, View, StyleSheet } from 'react-native'
 
-import CameraRollSelector, {
-  PhotoProps,
-} from 'react-native-photo-selector'
+import CameraRollSelector, { PhotoProps } from './PhotoSelector'
 
 const App = (): JSX.Element => {
   const _callback = (
@@ -25,7 +23,6 @@ const App = (): JSX.Element => {
           imagesPerRow={3}
           imageMargin={5}
           useCamera={true}
-          imageZoom={true}
         />
       </View>
     </SafeAreaView>

@@ -63,7 +63,6 @@ export interface PhotoSelectorProps {
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
   cameraCaptureIcon?: JSX.Element
-  imageZoom?: boolean
 }
 
 // helper functions
@@ -120,7 +119,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     cameraPreviewStyle,
     cameraFlipIcon,
     cameraCaptureIcon,
-    imageZoom = false,
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
@@ -271,7 +269,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
           cameraPreviewStyle,
           cameraFlipIcon,
           cameraCaptureIcon,
-          imageZoom,
           setZoomImage,
         }}
       />

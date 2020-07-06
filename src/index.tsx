@@ -12,7 +12,6 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  SafeAreaView,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import { RNCameraProps } from 'react-native-camera'
@@ -64,7 +63,6 @@ export interface PhotoSelectorProps {
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
   cameraCaptureIcon?: JSX.Element
-  imageZoom?: boolean
 }
 
 // helper functions
@@ -121,7 +119,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     cameraPreviewStyle,
     cameraFlipIcon,
     cameraCaptureIcon,
-    imageZoom = false,
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
@@ -272,7 +269,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
           cameraPreviewStyle,
           cameraFlipIcon,
           cameraCaptureIcon,
-          imageZoom,
           setZoomImage,
         }}
       />
@@ -329,46 +325,41 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
           setZoomImage(undefined)
         }}
       >
-        <SafeAreaView>
-          <View style={styles.closeBox}>
-            <TouchableOpacity
-              style={styles.close}
-              onPress={(): void => {
-                setZoomImage(undefined)
+        {zoomImage && (
+          <ImageZoom
+            cropWidth={windowWidth}
+            cropHeight={windowHeight}
+            imageWidth={windowWidth}
+            imageHeight={windowHeight}
+            enableSwipeDown={true}
+            onSwipeDown={(): void => {
+              setZoomImage(undefined)
+            }}
+          >
+            <Image
+              style={{
+                width: windowWidth,
+                height: windowHeight,
               }}
-            >
-              <Image
-                source={require('./assets/close.png')}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </TouchableOpacity>
-          </View>
-          {zoomImage && (
-            <ImageZoom
-              cropWidth={windowWidth}
-              cropHeight={windowHeight}
-              imageWidth={windowWidth}
-              imageHeight={windowHeight}
-              enableSwipeDown={true}
-              onSwipeDown={(): void => {
-                setZoomImage(undefined)
+              resizeMode="contain"
+              resizeMethod="scale"
+              source={{
+                uri: zoomImage,
               }}
-            >
-              <Image
-                style={{
-                  width: windowWidth,
-                  height: windowHeight,
-                  marginTop: -40,
-                }}
-                resizeMode="contain"
-                resizeMethod="scale"
-                source={{
-                  uri: zoomImage,
-                }}
-              />
-            </ImageZoom>
-          )}
-        </SafeAreaView>
+            />
+          </ImageZoom>
+        )}
+        <TouchableOpacity
+          style={styles.close}
+          onPress={(): void => {
+            setZoomImage(undefined)
+          }}
+        >
+          <Image
+            source={require('./assets/close.png')}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </TouchableOpacity>
       </Modal>
     </>
   )
@@ -385,12 +376,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  closeBox: {
-    alignItems: 'flex-end',
-    padding: 8,
-  },
   close: {
-    width: 24,
-    height: 24,
+    position: 'absolute',
+    right: 10,
+    top: 10,
+    width: 30,
+    height: 30,
   },
 })
