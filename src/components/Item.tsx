@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View,
   Image,
   StyleSheet,
   Dimensions,
@@ -37,7 +36,12 @@ const Item = ({
   setZoomImage,
 }: ItemProps): JSX.Element => {
   const CheckIconImageZoom = (): JSX.Element => {
-    return <View style={styles.checkIconImageZoom} />
+    return (
+      <TouchableOpacity
+        style={styles.checkIconImageZoom}
+        onPress={(): void => _handleClick(item)}
+      />
+    )
   }
 
   const [imageSize, setImageSize] = useState<number>(0)
@@ -63,9 +67,6 @@ const Item = ({
         marginRight: imageMargin,
       }}
       onPress={(): void => {
-        _handleClick(item)
-      }}
-      onLongPress={(): void => {
         setZoomImage(item.uri)
       }}
     >
@@ -73,11 +74,19 @@ const Item = ({
         source={{ uri: item.uri }}
         style={{ height: imageSize, width: imageSize }}
       />
-      {isSelected ? (
-        selectedMarker(selectedIndex + 1)
-      ) : (
-        <CheckIconImageZoom />
-      )}
+
+      <TouchableOpacity
+        onPress={(): void => {
+          _handleClick(item)
+        }}
+        style={styles.selectedMarkerTouchable}
+      >
+        {isSelected ? (
+          selectedMarker(selectedIndex + 1)
+        ) : (
+          <CheckIconImageZoom />
+        )}
+      </TouchableOpacity>
     </TouchableOpacity>
   )
 }
@@ -85,6 +94,13 @@ const Item = ({
 export default Item
 
 const styles = StyleSheet.create({
+  selectedMarkerTouchable: {
+    right: 0,
+    width: 40,
+    height: 40,
+    elevation: 1,
+    position: 'absolute',
+  },
   checkIconImageZoom: {
     position: 'absolute',
     justifyContent: 'center',
