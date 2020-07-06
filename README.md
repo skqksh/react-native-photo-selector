@@ -8,8 +8,6 @@ CameraRoll Picker component for React native
 
 <a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dMl3tpVQrndfeo8dorkJ387KITG5XI5QQzf-y3tSYRn-Fn898G32j8qg_Z7uktsV8FFPOmvC7eDU6Bq_MQwMG3dd-fuae4Z8Pxvx1HF9Awj9saYunQrDQmNhHHzt-ilNFWN3gc4ejtFvFqKM7F1eif=w222-h480-no?authuser=0" width="350"></a>
 
-
-
 ## Add to Project
 
 - Install Dependency libraries with Android & IOS settings
@@ -208,19 +206,19 @@ const Demo = () => {
 
 ### `cameraCaptureIcon`
 
-#### : Set able to zoom image 
+#### : Set able to zoom image
 
 | type        | default       |
 | ----------- | ------------- |
 | JSX.Element | 'circle mark' |
 
-### `imageZoom`
+### `imageZoom` (Deprecated 2.0.4 < )
 
 #### : Set camera preview style.
 
-| type        | default       |
-| ----------- | ------------- |
-| boolean | false |
+| type    | default |
+| ------- | ------- |
+| boolean | false   |
 
 ## Run Example
 

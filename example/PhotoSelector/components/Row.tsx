@@ -21,7 +21,6 @@ export interface RowProps {
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
   cameraCaptureIcon?: JSX.Element
-  imageZoom: boolean
   setZoomImage: React.Dispatch<
     React.SetStateAction<string | undefined>
   >
@@ -42,7 +41,6 @@ const Row = ({
   cameraPreviewStyle,
   cameraFlipIcon,
   cameraCaptureIcon,
-  imageZoom,
   setZoomImage,
 }: RowProps): JSX.Element => {
   function renderImage(
@@ -77,7 +75,6 @@ const Row = ({
           imagesPerRow,
           containerWidth,
           onClick: selectImage,
-          imageZoom,
           setZoomImage,
         }}
       />

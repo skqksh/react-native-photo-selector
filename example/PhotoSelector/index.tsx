@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  AppState,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import { RNCameraProps } from 'react-native-camera'
@@ -63,7 +64,6 @@ export interface PhotoSelectorProps {
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
   cameraCaptureIcon?: JSX.Element
-  imageZoom?: boolean
 }
 
 // helper functions
@@ -120,7 +120,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     cameraPreviewStyle,
     cameraFlipIcon,
     cameraCaptureIcon,
-    imageZoom = false,
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
@@ -139,6 +138,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 
   useEffect(() => {
     fetch()
+    AppState.addEventListener('focus', () => {
+      setLocalSelected([])
+      doFetch(true)
+    })
   }, [])
 
   function onEndReached(): void {
@@ -271,7 +274,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
           cameraPreviewStyle,
           cameraFlipIcon,
           cameraCaptureIcon,
-          imageZoom,
           setZoomImage,
         }}
       />

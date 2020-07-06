@@ -25,7 +25,6 @@ const App = (): JSX.Element => {
           imagesPerRow={3}
           imageMargin={5}
           useCamera={true}
-          imageZoom={true}
         />
       </View>
     </SafeAreaView>

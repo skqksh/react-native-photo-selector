@@ -20,7 +20,6 @@ export interface ItemProps {
   imagesPerRow: number
   containerWidth?: number
   onClick: (item: PhotoProps) => void
-  imageZoom: boolean
   setZoomImage: React.Dispatch<
     React.SetStateAction<string | undefined>
   >
@@ -35,32 +34,10 @@ const Item = ({
   imagesPerRow,
   containerWidth,
   onClick,
-  imageZoom,
   setZoomImage,
 }: ItemProps): JSX.Element => {
   const CheckIconImageZoom = (): JSX.Element => {
-    return imageZoom ? (
-      <TouchableOpacity
-        style={styles.checkIconImageZoom}
-        onPress={(): void => _handleClick(item)}
-      />
-    ) : (
-      <View />
-    )
-  }
-  const SelectedMarker = (): JSX.Element => {
-    return imageZoom ? (
-      <TouchableOpacity
-        onPress={(): void => {
-          _handleClick(item)
-        }}
-        style={styles.selectedMarkerTouchable}
-      >
-        {selectedMarker(selectedIndex + 1)}
-      </TouchableOpacity>
-    ) : (
-      selectedMarker(selectedIndex + 1)
-    )
+    return <View style={styles.checkIconImageZoom} />
   }
 
   const [imageSize, setImageSize] = useState<number>(0)
@@ -86,14 +63,21 @@ const Item = ({
         marginRight: imageMargin,
       }}
       onPress={(): void => {
-        imageZoom ? setZoomImage(item.uri) : _handleClick(item)
+        _handleClick(item)
+      }}
+      onLongPress={(): void => {
+        setZoomImage(item.uri)
       }}
     >
       <Image
         source={{ uri: item.uri }}
         style={{ height: imageSize, width: imageSize }}
       />
-      {isSelected ? <SelectedMarker /> : <CheckIconImageZoom />}
+      {isSelected ? (
+        selectedMarker(selectedIndex + 1)
+      ) : (
+        <CheckIconImageZoom />
+      )}
     </TouchableOpacity>
   )
 }
@@ -101,13 +85,6 @@ const Item = ({
 export default Item
 
 const styles = StyleSheet.create({
-  selectedMarkerTouchable: {
-    right: 0,
-    width: 40,
-    height: 40,
-    elevation: 1,
-    position: 'absolute',
-  },
   checkIconImageZoom: {
     position: 'absolute',
     justifyContent: 'center',
