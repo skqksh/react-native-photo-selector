@@ -18,7 +18,8 @@ import { RNCameraProps } from 'react-native-camera'
 import ImageZoom from 'react-native-image-pan-zoom'
 import CheckIcon from './components/CheckIcon'
 
-import Row from './components/Row'
+import ImageItem from './components/Item'
+import CameraButton from './components/CameraButton'
 
 const { width: windowWidth, height: windowHeight } = Dimensions.get(
   'window'
@@ -73,29 +74,10 @@ const arrayObjectIndexOf = (
 
 const nEveryRow = (
   data: (PhotoProps | PhotoSelectorOptions)[],
-  n: number,
   useCamera: boolean
-): (PhotoProps | PhotoSelectorOptions | null)[][] => {
+): (PhotoProps | PhotoSelectorOptions | null)[] => {
   if (useCamera) data = [{ type: 'camera' }, ...data]
-  const result = []
-  let temp = []
-
-  for (let i = 0; i < data.length; ++i) {
-    if (i > 0 && i % n === 0) {
-      result.push(temp)
-      temp = []
-    }
-    temp.push(data[i])
-  }
-
-  if (temp.length > 0) {
-    while (temp.length !== n) {
-      temp.push(null)
-    }
-    result.push(temp)
-  }
-
-  return result
+  return data
 }
 
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
@@ -130,7 +112,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
   const [noMore, setNoMore] = useState<boolean>(false)
   const [data, setData] = useState<
-    (PhotoProps | PhotoSelectorOptions | null)[][]
+    (PhotoProps | PhotoSelectorOptions | null)[]
   >([])
 
   const [zoomImage, setZoomImage] = useState<string>()
@@ -167,7 +149,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         ? asstesImages
         : images.concat(asstesImages)
       setImages(newImages)
-      const rows = nEveryRow(newImages, imagesPerRow, useCamera)
+      const rows = nEveryRow(newImages, useCamera)
+
       if (rows) setData(rows)
     }
 
@@ -218,7 +201,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       }
     }
 
-    setData(nEveryRow(oriImages || images, imagesPerRow, useCamera))
+    setData(nEveryRow(oriImages || images, useCamera))
     setLocalSelected(localSelected)
     callback(localSelected, image)
   }
@@ -241,35 +224,40 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   }
 
   function renderRow(
-    item: (PhotoProps | PhotoSelectorOptions | null)[],
-    rowIndex: number
+    item: PhotoProps | PhotoSelectorOptions
   ): JSX.Element {
-    // item is an array of objects
-    const selectedIndexOf = item.map((imageItem) => {
-      if (imageItem !== null && 'uri' in imageItem) {
-        const { uri } = imageItem
-        return arrayObjectIndexOf(localSelected, uri)
-      }
-      return -1
-    })
+    if ('uri' in item) {
+      const { uri } = item
+      const selectedIndex = arrayObjectIndexOf(localSelected, uri)
+      return (
+        <ImageItem
+          {...{
+            item,
+            selectedIndex,
+            isSelected: selectedIndex > -1,
+            imageMargin,
+            selectedMarker,
+            imagesPerRow,
+            containerWidth: props.containerWidth,
+            onClick: selectImage,
+            setZoomImage,
+          }}
+        />
+      )
+    }
+
     return (
-      <Row
+      <CameraButton
         {...{
-          rowIndex,
-          rowData: item,
-          selectedIndexOf,
-          selectImage,
-          takePhoto,
-          imagesPerRow,
           imageMargin,
+          imagesPerRow,
           containerWidth: props.containerWidth,
-          selectedMarker,
+          takePhoto,
           cameraButtonIcon,
           cameraPreviewProps,
           cameraPreviewStyle,
           cameraFlipIcon,
           cameraCaptureIcon,
-          setZoomImage,
         }}
       />
     )
@@ -296,9 +284,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         ListFooterComponent={renderFooterSpinner}
         initialNumToRender={initialNumToRender}
         onEndReached={onEndReached}
-        renderItem={({ item, index }): JSX.Element =>
-          renderRow(item, index)
+        renderItem={({ item }): JSX.Element =>
+          item ? renderRow(item) : <View />
         }
+        numColumns={imagesPerRow}
         keyExtractor={(item, i): string => `photo-selector-${i}`}
         data={data}
         extraData={selected}
@@ -349,17 +338,25 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
             />
           </ImageZoom>
         )}
-        <TouchableOpacity
-          style={styles.close}
-          onPress={(): void => {
-            setZoomImage(undefined)
+        <View
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
           }}
         >
-          <Image
-            source={require('./assets/close.png')}
-            style={{ width: '100%', height: '100%' }}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.close}
+            onPress={(): void => {
+              setZoomImage(undefined)
+            }}
+          >
+            <Image
+              source={require('./assets/close.png')}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </TouchableOpacity>
+        </View>
       </Modal>
     </>
   )
