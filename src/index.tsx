@@ -61,6 +61,8 @@ export interface PhotoSelectorProps {
   emptyText?: string
   emptyTextStyle?: TextStyle
   loader?: JSX.Element
+  loadingMoreLoader?: JSX.Element
+  loadingMoreContainerStyle?: ViewStyle
   useCamera?: boolean
   cameraButtonIcon?: JSX.Element
   cameraPreviewProps?: RNCameraProps
@@ -254,16 +256,17 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     )
   }
 
-  function renderFooterSpinner(): JSX.Element {
-    return noMore ? <View /> : <ActivityIndicator />
-  }
-
-  const { emptyTextStyle, loader } = rest
+  const {
+    emptyTextStyle,
+    loader,
+    loadingMoreLoader,
+    loadingMoreContainerStyle,
+  } = rest
 
   if (initialLoading) {
     return (
       <View style={[styles.loader, { backgroundColor }]}>
-        {loader || <ActivityIndicator />}
+        {loader || <ActivityIndicator size="large" />}
       </View>
     )
   }
@@ -272,7 +275,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     data.length > 0 ? (
       <FlatList
         style={{ flex: 1 }}
-        ListFooterComponent={renderFooterSpinner}
         initialNumToRender={initialNumToRender}
         onEndReached={onEndReached}
         renderItem={({ item }): JSX.Element =>
@@ -348,6 +350,16 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
           </TouchableOpacity>
         </View>
       </Modal>
+      {loadingMore && (
+        <View
+          style={
+            loadingMoreContainerStyle ||
+            styles.loadingMoreContainerStyle
+          }
+        >
+          {loadingMoreLoader || <ActivityIndicator size="large" />}
+        </View>
+      )}
     </>
   )
 }
@@ -369,5 +381,13 @@ const styles = StyleSheet.create({
     top: 10,
     width: 30,
     height: 30,
+  },
+  loadingMoreContainerStyle: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffffAA',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })

@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView, View, StyleSheet } from 'react-native'
+import { SafeAreaView, View, Text, StyleSheet } from 'react-native'
 
 import CameraRollSelector, {
   PhotoProps,
@@ -25,6 +25,24 @@ const App = (): JSX.Element => {
           imagesPerRow={3}
           imageMargin={5}
           useCamera={true}
+          loader={
+            <View>
+              <Text>Initializing...</Text>
+            </View>
+          }
+          loadingMoreContainerStyle={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#abcabcAA',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          loadingMoreLoader={
+            <View>
+              <Text>Loading...</Text>
+            </View>
+          }
         />
       </View>
     </SafeAreaView>
