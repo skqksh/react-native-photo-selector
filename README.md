@@ -160,9 +160,25 @@ const Demo = () => {
 
 #### : Loader component node.
 
-| type        | default                 |
-| ----------- | ----------------------- |
-| JSX.Element | `<ActivityIndicator />` |
+| type        | default                              |
+| ----------- | ------------------------------------ |
+| JSX.Element | `<ActivityIndicator size="large" />` |
+
+### `loadingMoreLoader`
+
+#### : Loader component node when Loading Images.
+
+| type        | default                              |
+| ----------- | ------------------------------------ |
+| JSX.Element | `<ActivityIndicator size="large" />` |
+
+### `loadingMoreContainerStyle`
+
+#### : loadingMoreLoader component container style.
+
+| type      |
+| --------- |
+| ViewStyle |
 
 ### `useCamera`
 

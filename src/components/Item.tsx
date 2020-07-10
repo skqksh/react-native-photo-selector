@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import {
-  View,
   Image,
   StyleSheet,
   Dimensions,
   TouchableOpacity,
 } from 'react-native'
+import { observer } from 'mobx-react'
 
 import { PhotoProps } from '../index'
+import CommonStore from '../store/CommonStore'
 
 const { width: windowWidth } = Dimensions.get('window')
 
 export interface ItemProps {
   item: PhotoProps
-  selectedIndex: number
-  isSelected: boolean
   selectedMarker: (index: number) => JSX.Element
   imageMargin: number
   imagesPerRow: number
@@ -25,66 +24,89 @@ export interface ItemProps {
   >
 }
 
-const Item = ({
-  item,
-  selectedIndex,
-  isSelected,
-  selectedMarker,
-  imageMargin,
-  imagesPerRow,
-  containerWidth,
-  onClick,
-  setZoomImage,
-}: ItemProps): JSX.Element => {
-  const CheckIconImageZoom = (): JSX.Element => {
-    return <View style={styles.checkIconImageZoom} />
-  }
+const Item = observer(
+  ({
+    item,
+    selectedMarker,
+    imageMargin,
+    imagesPerRow,
+    containerWidth,
+    onClick,
+    setZoomImage,
+  }: ItemProps): JSX.Element => {
+    const { localSelectedUri } = CommonStore
+    const selectedIndex =
+      localSelectedUri.length > 0
+        ? localSelectedUri.indexOf(item.uri)
+        : -1
 
-  const [imageSize, setImageSize] = useState<number>(0)
-
-  useEffect(() => {
-    let width = windowWidth
-    if (typeof containerWidth !== 'undefined') {
-      width = containerWidth
+    const CheckIconImageZoom = (): JSX.Element => {
+      return (
+        <TouchableOpacity
+          style={styles.checkIconImageZoom}
+          onPress={(): void => _handleClick(item)}
+        />
+      )
     }
-    setImageSize(
-      (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
+
+    const [imageSize, setImageSize] = useState<number>(0)
+
+    useEffect(() => {
+      let width = windowWidth
+      if (typeof containerWidth !== 'undefined') {
+        width = containerWidth
+      }
+      setImageSize(
+        (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
+      )
+    }, [])
+
+    function _handleClick(item: PhotoProps): void {
+      onClick(item)
+    }
+
+    return (
+      <TouchableOpacity
+        style={{
+          marginBottom: imageMargin,
+          marginRight: imageMargin,
+        }}
+        onPress={(): void => {
+          setZoomImage(item.uri)
+        }}
+      >
+        <Image
+          source={{ uri: item.uri }}
+          style={{ height: imageSize, width: imageSize }}
+        />
+
+        <TouchableOpacity
+          onPress={(): void => {
+            _handleClick(item)
+          }}
+          style={styles.selectedMarkerTouchable}
+        >
+          {selectedIndex > -1 ? (
+            selectedMarker(selectedIndex + 1)
+          ) : (
+            <CheckIconImageZoom />
+          )}
+        </TouchableOpacity>
+      </TouchableOpacity>
     )
-  }, [])
-
-  function _handleClick(item: PhotoProps): void {
-    onClick(item)
   }
-
-  return (
-    <TouchableOpacity
-      style={{
-        marginBottom: imageMargin,
-        marginRight: imageMargin,
-      }}
-      onPress={(): void => {
-        _handleClick(item)
-      }}
-      onLongPress={(): void => {
-        setZoomImage(item.uri)
-      }}
-    >
-      <Image
-        source={{ uri: item.uri }}
-        style={{ height: imageSize, width: imageSize }}
-      />
-      {isSelected ? (
-        selectedMarker(selectedIndex + 1)
-      ) : (
-        <CheckIconImageZoom />
-      )}
-    </TouchableOpacity>
-  )
-}
+)
 
 export default Item
 
 const styles = StyleSheet.create({
+  selectedMarkerTouchable: {
+    right: 0,
+    width: 40,
+    height: 40,
+    elevation: 1,
+    position: 'absolute',
+  },
   checkIconImageZoom: {
     position: 'absolute',
     justifyContent: 'center',

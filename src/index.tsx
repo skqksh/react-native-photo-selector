@@ -16,9 +16,13 @@ import {
 import CameraRoll from '@react-native-community/cameraroll'
 import { RNCameraProps } from 'react-native-camera'
 import ImageZoom from 'react-native-image-pan-zoom'
+import 'mobx-react-lite/batchingForReactDom'
+
 import CheckIcon from './components/CheckIcon'
 
-import Row from './components/Row'
+import ImageItem from './components/Item'
+import CameraButton from './components/CameraButton'
+import CommonStore from './store/CommonStore'
 
 const { width: windowWidth, height: windowHeight } = Dimensions.get(
   'window'
@@ -57,6 +61,8 @@ export interface PhotoSelectorProps {
   emptyText?: string
   emptyTextStyle?: TextStyle
   loader?: JSX.Element
+  loadingMoreLoader?: JSX.Element
+  loadingMoreContainerStyle?: ViewStyle
   useCamera?: boolean
   cameraButtonIcon?: JSX.Element
   cameraPreviewProps?: RNCameraProps
@@ -65,37 +71,12 @@ export interface PhotoSelectorProps {
   cameraCaptureIcon?: JSX.Element
 }
 
-// helper functions
-const arrayObjectIndexOf = (
-  array: PhotoProps[],
-  value: string
-): number => array.map((o) => o.uri).indexOf(value)
-
 const nEveryRow = (
   data: (PhotoProps | PhotoSelectorOptions)[],
-  n: number,
   useCamera: boolean
-): (PhotoProps | PhotoSelectorOptions | null)[][] => {
+): (PhotoProps | PhotoSelectorOptions | null)[] => {
   if (useCamera) data = [{ type: 'camera' }, ...data]
-  const result = []
-  let temp = []
-
-  for (let i = 0; i < data.length; ++i) {
-    if (i > 0 && i % n === 0) {
-      result.push(temp)
-      temp = []
-    }
-    temp.push(data[i])
-  }
-
-  if (temp.length > 0) {
-    while (temp.length !== n) {
-      temp.push(null)
-    }
-    result.push(temp)
-  }
-
-  return result
+  return data
 }
 
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
@@ -122,20 +103,20 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
-  const [localSelected, setLocalSelected] = useState<PhotoProps[]>(
-    selected
-  )
+
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
   const [noMore, setNoMore] = useState<boolean>(false)
   const [data, setData] = useState<
-    (PhotoProps | PhotoSelectorOptions | null)[][]
+    (PhotoProps | PhotoSelectorOptions | null)[]
   >([])
 
   const [zoomImage, setZoomImage] = useState<string>()
 
   useEffect(() => {
+    CommonStore.localSelected = selected
+    CommonStore.localSelectedUri = selected.map((o) => o.uri)
     fetch()
   }, [])
 
@@ -167,7 +148,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         ? asstesImages
         : images.concat(asstesImages)
       setImages(newImages)
-      const rows = nEveryRow(newImages, imagesPerRow, useCamera)
+      const rows = nEveryRow(newImages, useCamera)
+
       if (rows) setData(rows)
     }
 
@@ -201,11 +183,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     )
   }
 
-  function selectImage(
-    image: PhotoProps,
-    oriImages?: PhotoProps[]
-  ): void {
-    const index = arrayObjectIndexOf(localSelected, image.uri)
+  function selectImage(image: PhotoProps): void {
+    const { localSelected, localSelectedUri } = CommonStore
+    const index = localSelectedUri.indexOf(image.uri)
 
     if (index >= 0) {
       localSelected.splice(index, 1)
@@ -218,8 +198,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       }
     }
 
-    setData(nEveryRow(oriImages || images, imagesPerRow, useCamera))
-    setLocalSelected(localSelected)
+    CommonStore.localSelected = localSelected
+    CommonStore.localSelectedUri = localSelected.map((o) => o.uri)
     callback(localSelected, image)
   }
 
@@ -241,50 +221,52 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   }
 
   function renderRow(
-    item: (PhotoProps | PhotoSelectorOptions | null)[],
-    rowIndex: number
+    item: PhotoProps | PhotoSelectorOptions
   ): JSX.Element {
-    // item is an array of objects
-    const selectedIndexOf = item.map((imageItem) => {
-      if (imageItem !== null && 'uri' in imageItem) {
-        const { uri } = imageItem
-        return arrayObjectIndexOf(localSelected, uri)
-      }
-      return -1
-    })
+    if ('uri' in item) {
+      return (
+        <ImageItem
+          {...{
+            item,
+            imageMargin,
+            selectedMarker,
+            imagesPerRow,
+            containerWidth: props.containerWidth,
+            onClick: selectImage,
+            setZoomImage,
+          }}
+        />
+      )
+    }
+
     return (
-      <Row
+      <CameraButton
         {...{
-          rowIndex,
-          rowData: item,
-          selectedIndexOf,
-          selectImage,
-          takePhoto,
-          imagesPerRow,
           imageMargin,
+          imagesPerRow,
           containerWidth: props.containerWidth,
-          selectedMarker,
+          takePhoto,
           cameraButtonIcon,
           cameraPreviewProps,
           cameraPreviewStyle,
           cameraFlipIcon,
           cameraCaptureIcon,
-          setZoomImage,
         }}
       />
     )
   }
 
-  function renderFooterSpinner(): JSX.Element {
-    return noMore ? <View /> : <ActivityIndicator />
-  }
-
-  const { emptyTextStyle, loader } = rest
+  const {
+    emptyTextStyle,
+    loader,
+    loadingMoreLoader,
+    loadingMoreContainerStyle,
+  } = rest
 
   if (initialLoading) {
     return (
       <View style={[styles.loader, { backgroundColor }]}>
-        {loader || <ActivityIndicator />}
+        {loader || <ActivityIndicator size="large" />}
       </View>
     )
   }
@@ -293,15 +275,14 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     data.length > 0 ? (
       <FlatList
         style={{ flex: 1 }}
-        ListFooterComponent={renderFooterSpinner}
         initialNumToRender={initialNumToRender}
         onEndReached={onEndReached}
-        renderItem={({ item, index }): JSX.Element =>
-          renderRow(item, index)
+        renderItem={({ item }): JSX.Element =>
+          item ? renderRow(item) : <View />
         }
+        numColumns={imagesPerRow}
         keyExtractor={(item, i): string => `photo-selector-${i}`}
         data={data}
-        extraData={selected}
       />
     ) : (
       <Text style={[{ textAlign: 'center' }, emptyTextStyle]}>
@@ -349,18 +330,36 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
             />
           </ImageZoom>
         )}
-        <TouchableOpacity
-          style={styles.close}
-          onPress={(): void => {
-            setZoomImage(undefined)
+        <View
+          style={{
+            position: 'absolute',
+            top: 20,
+            right: 20,
           }}
         >
-          <Image
-            source={require('./assets/close.png')}
-            style={{ width: '100%', height: '100%' }}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.close}
+            onPress={(): void => {
+              setZoomImage(undefined)
+            }}
+          >
+            <Image
+              source={require('./assets/close.png')}
+              style={{ width: '100%', height: '100%' }}
+            />
+          </TouchableOpacity>
+        </View>
       </Modal>
+      {loadingMore && (
+        <View
+          style={
+            loadingMoreContainerStyle ||
+            styles.loadingMoreContainerStyle
+          }
+        >
+          {loadingMoreLoader || <ActivityIndicator size="large" />}
+        </View>
+      )}
     </>
   )
 }
@@ -382,5 +381,13 @@ const styles = StyleSheet.create({
     top: 10,
     width: 30,
     height: 30,
+  },
+  loadingMoreContainerStyle: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#ffffffAA',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
