@@ -16,10 +16,13 @@ import {
 import CameraRoll from '@react-native-community/cameraroll'
 import { RNCameraProps } from 'react-native-camera'
 import ImageZoom from 'react-native-image-pan-zoom'
+import 'mobx-react-lite/batchingForReactDom'
+
 import CheckIcon from './components/CheckIcon'
 
 import ImageItem from './components/Item'
 import CameraButton from './components/CameraButton'
+import CommonStore from './store/CommonStore'
 
 const { width: windowWidth, height: windowHeight } = Dimensions.get(
   'window'
@@ -66,12 +69,6 @@ export interface PhotoSelectorProps {
   cameraCaptureIcon?: JSX.Element
 }
 
-// helper functions
-const arrayObjectIndexOf = (
-  array: PhotoProps[],
-  value: string
-): number => array.map((o) => o.uri).indexOf(value)
-
 const nEveryRow = (
   data: (PhotoProps | PhotoSelectorOptions)[],
   useCamera: boolean
@@ -104,9 +101,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     ...rest
   } = props
   const [images, setImages] = useState<PhotoProps[]>([])
-  const [localSelected, setLocalSelected] = useState<PhotoProps[]>(
-    selected
-  )
+
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
@@ -118,6 +113,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const [zoomImage, setZoomImage] = useState<string>()
 
   useEffect(() => {
+    CommonStore.localSelected = selected
+    CommonStore.localSelectedUri = selected.map((o) => o.uri)
     fetch()
   }, [])
 
@@ -184,11 +181,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     )
   }
 
-  function selectImage(
-    image: PhotoProps,
-    oriImages?: PhotoProps[]
-  ): void {
-    const index = arrayObjectIndexOf(localSelected, image.uri)
+  function selectImage(image: PhotoProps): void {
+    const { localSelected, localSelectedUri } = CommonStore
+    const index = localSelectedUri.indexOf(image.uri)
 
     if (index >= 0) {
       localSelected.splice(index, 1)
@@ -201,8 +196,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       }
     }
 
-    setData(nEveryRow(oriImages || images, useCamera))
-    setLocalSelected(localSelected)
+    CommonStore.localSelected = localSelected
+    CommonStore.localSelectedUri = localSelected.map((o) => o.uri)
     callback(localSelected, image)
   }
 
@@ -227,14 +222,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     item: PhotoProps | PhotoSelectorOptions
   ): JSX.Element {
     if ('uri' in item) {
-      const { uri } = item
-      const selectedIndex = arrayObjectIndexOf(localSelected, uri)
       return (
         <ImageItem
           {...{
             item,
-            selectedIndex,
-            isSelected: selectedIndex > -1,
             imageMargin,
             selectedMarker,
             imagesPerRow,
@@ -290,7 +281,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         numColumns={imagesPerRow}
         keyExtractor={(item, i): string => `photo-selector-${i}`}
         data={data}
-        extraData={selected}
       />
     ) : (
       <Text style={[{ textAlign: 'center' }, emptyTextStyle]}>
