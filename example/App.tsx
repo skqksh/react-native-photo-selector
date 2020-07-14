@@ -27,7 +27,9 @@ const App = (): JSX.Element => {
           useCamera={true}
           loader={
             <View>
-              <Text>Initializing...</Text>
+              <Text>
+                Initializing... please check your app permissions
+              </Text>
             </View>
           }
           loadingMoreContainerStyle={{
@@ -40,9 +42,12 @@ const App = (): JSX.Element => {
           }}
           loadingMoreLoader={
             <View>
-              <Text>Loading...</Text>
+              <Text>
+                Loading... please check your app permissions
+              </Text>
             </View>
           }
+          emptyText={'no photos... please check your app permissions'}
         />
       </View>
     </SafeAreaView>
