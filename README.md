@@ -4,7 +4,7 @@ CameraRoll Picker component for React native
 
 ## DEMO
 
-### usecamera(option) & imageZoom(option)
+### usecamera(option)
 
 <a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dMl3tpVQrndfeo8dorkJ387KITG5XI5QQzf-y3tSYRn-Fn898G32j8qg_Z7uktsV8FFPOmvC7eDU6Bq_MQwMG3dd-fuae4Z8Pxvx1HF9Awj9saYunQrDQmNhHHzt-ilNFWN3gc4ejtFvFqKM7F1eif=w222-h480-no?authuser=0" width="350"></a>
 
