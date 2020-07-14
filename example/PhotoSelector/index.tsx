@@ -71,14 +71,6 @@ export interface PhotoSelectorProps {
   cameraCaptureIcon?: JSX.Element
 }
 
-const nEveryRow = (
-  data: (PhotoProps | PhotoSelectorOptions)[],
-  useCamera: boolean
-): (PhotoProps | PhotoSelectorOptions | null)[] => {
-  if (useCamera) data = [{ type: 'camera' }, ...data]
-  return data
-}
-
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const {
     initialNumToRender = 5,
@@ -109,7 +101,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
   const [noMore, setNoMore] = useState<boolean>(false)
   const [data, setData] = useState<
-    (PhotoProps | PhotoSelectorOptions | null)[]
+    (PhotoProps | PhotoSelectorOptions)[]
   >([])
 
   const [zoomImage, setZoomImage] = useState<string>()
@@ -117,6 +109,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   useEffect(() => {
     CommonStore.localSelected = selected
     CommonStore.localSelectedUri = selected.map((o) => o.uri)
+    if (useCamera) setData([{ type: 'camera' }])
     fetch()
   }, [])
 
@@ -148,9 +141,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         ? asstesImages
         : images.concat(asstesImages)
       setImages(newImages)
-      const rows = nEveryRow(newImages, useCamera)
 
-      if (rows) setData(rows)
+      if (newImages) setData((ori) => ori.concat(newImages))
     }
 
     setLoadingMore(false)
