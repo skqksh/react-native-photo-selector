@@ -94,7 +94,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     cameraCaptureIcon,
     ...rest
   } = props
-  const [images, setImages] = useState<PhotoProps[]>([])
 
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
@@ -137,12 +136,14 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         return image
       })
       setLastCursor(data.page_info.end_cursor)
-      const newImages = init
-        ? asstesImages
-        : images.concat(asstesImages)
-      setImages(newImages)
 
-      if (newImages) setData((ori) => ori.concat(newImages))
+      setData((ori) => {
+        return init
+          ? useCamera
+            ? [{ type: 'camera' }, ...asstesImages]
+            : asstesImages
+          : ori.concat(asstesImages)
+      })
     }
 
     setLoadingMore(false)
