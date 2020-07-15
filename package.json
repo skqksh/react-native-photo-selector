@@ -1,7 +1,7 @@
 {
   "name": "react-native-photo-selector",
   "description": "A React Native component providing images selection from camera roll ",
-  "version": "2.2.3",
+  "version": "2.2.5",
   "author": "blue",
   "dependencies": {
     "lodash": "^4.17.19",

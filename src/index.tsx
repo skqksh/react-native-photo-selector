@@ -69,6 +69,8 @@ export interface PhotoSelectorProps {
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
   cameraCaptureIcon?: JSX.Element
+  zoomImageCloseButton?: JSX.Element
+  zoomImageCloseContainerStyle?: ViewStyle
 }
 
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
@@ -92,9 +94,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     cameraPreviewStyle,
     cameraFlipIcon,
     cameraCaptureIcon,
+    zoomImageCloseButton,
+    zoomImageCloseContainerStyle,
     ...rest
   } = props
-  const [images, setImages] = useState<PhotoProps[]>([])
 
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
@@ -137,12 +140,14 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         return image
       })
       setLastCursor(data.page_info.end_cursor)
-      const newImages = init
-        ? asstesImages
-        : images.concat(asstesImages)
-      setImages(newImages)
 
-      if (newImages) setData((ori) => ori.concat(newImages))
+      setData((ori) => {
+        return init
+          ? useCamera
+            ? [{ type: 'camera' }, ...asstesImages]
+            : asstesImages
+          : ori.concat(asstesImages)
+      })
     }
 
     setLoadingMore(false)
@@ -322,25 +327,20 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
             />
           </ImageZoom>
         )}
-        <View
-          style={{
-            position: 'absolute',
-            top: 20,
-            right: 20,
+
+        <TouchableOpacity
+          style={[styles.close, zoomImageCloseContainerStyle]}
+          onPress={(): void => {
+            setZoomImage(undefined)
           }}
         >
-          <TouchableOpacity
-            style={styles.close}
-            onPress={(): void => {
-              setZoomImage(undefined)
-            }}
-          >
+          {zoomImageCloseButton || (
             <Image
               source={require('./assets/close.png')}
               style={{ width: '100%', height: '100%' }}
             />
-          </TouchableOpacity>
-        </View>
+          )}
+        </TouchableOpacity>
       </Modal>
       {loadingMore && (
         <View
@@ -369,8 +369,8 @@ const styles = StyleSheet.create({
   },
   close: {
     position: 'absolute',
-    right: 10,
-    top: 10,
+    right: 30,
+    top: 40,
     width: 30,
     height: 30,
   },

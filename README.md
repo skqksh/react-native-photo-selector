@@ -236,6 +236,22 @@ const Demo = () => {
 | ------- | ------- |
 | boolean | false   |
 
+### `zoomImageCloseButton`
+
+#### : Set button component of zoom-image
+
+| type        | default     |
+| ----------- | ----------- |
+| JSX.Element | close image |
+
+### `zoomImageCloseContainerStyle`
+
+#### : Set constainer style of zoom-image button
+
+| type      |
+| --------- |
+| ViewStyle |
+
 ## Run Example
 
 - To run the example app, you have to check the permissions of the app
