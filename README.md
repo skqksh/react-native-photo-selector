@@ -4,11 +4,11 @@ CameraRoll Picker component for React native
 
 ## DEMO
 
-### usecamera(option)
+### :arrow_forward: usecamera(option)
 
 <a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photovideo.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3cyhUsKHVt-QsEI3X1PEN5e4itjoURHT_wQYJyaZlHiIHyDW3G8L-2TkH6whRfPLjjoeJvq8WUpGuUDLk0CYLsUBCsO5pHIFSZzgA23PnFryjngdxAVRv5NlenZJwCZWBoqBtqHgCSxO1fff__731cD=w222-h480-no?authuser=0" width="350"></a>
 
-## Add to Project
+## :heavy_plus_sign: Add to Project
 
 - Install Dependency libraries with Android & IOS settings
   - [react-native-camera](https://github.com/react-native-community/react-native-camera)
@@ -24,7 +24,7 @@ $ npm i @react-native-community/cameraroll react-native-camera
 $ npm i react-native-photo-selector
 ```
 
-## Basic Usage
+## :bulb: Basic Usage
 
 ```js
 import PhotoSelector, { PhotoProps } from 'react-native-photo-selector';
@@ -41,7 +41,9 @@ const Demo = () => {
 
 ```
 
-## Props (\* : required)
+## :wrench: Props (\* : required)
+
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/PropsDetail.md"><h3> :eyes: View props detail</h3></a>
 
 #### (\*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
 
@@ -59,7 +61,7 @@ const Demo = () => {
 
 #### `imagesPerRow` : Number of images per row.
 
-##### `imageMargin` : Margin size of one image.
+#### `imageMargin` : Margin size of one image.
 
 #### `containerWidth` : Width of camer roll picker container.
 
@@ -95,42 +97,9 @@ const Demo = () => {
 
 #### `zoomImageCloseContainerStyle` : Set constainer style of zoom-image button
 
+## :calling: Run Example
 
-## Props (\* : required)
-
-| Props                        | type                                          | default                              | etc                                                                             |
-| ---------------------------- | --------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------- |
-| \*callback                   | func                                          |                                      | (selectedImages:PhotoProps[],currentImage:PhotoProps)=>void                     |
-| initialNumToRender           | number                                        | 5                                    | Flatlist's props                                                                |
-| groupTypes                   | CameraRoll.GroupType                          | "SavedPhotos"                        | "Album" , "All" , "Event" , "Faces" , "Library" , "PhotoStream" , "SavedPhotos" |
-| assetType                    | CameraRoll.GroupType                          | "Photos"                             | "ALL" , "Videos" , "Photos"                                                     |
-| selected                     | any[]                                         | []                                   | Set array with which is returned by callback                                    |
-| selectSingleItem             | boolean                                       | false                                | If `true` , `maximum` option is ignored                                         |
-| maximum                      | number                                        | 15                                   | To use this option, `selectSingleItem` option must be `false`                   |
-| imagesPerRow                 | number                                        | 3                                    | Not Recommend to be over 10                                                     |
-| imageMargin                  | number                                        | 5                                    | :)                                                                              |
-| containerWidth               | number                                        | window.width                         | You can use react-native Dimensions to get window width                         |
-| selectedMarker               | JSX.Element \| (selected:number)=>JSX.Element | 'circle mark'                        | 'selected' is starts from 1                                                     |
-| backgroundColor              | string                                        | 'white'                              | :)                                                                              |
-| emptyText                    | string                                        | "No photos."                         | :)                                                                              |
-| emptyTextStyle               | TextStyle                                     | `textAlign: 'center'`                | :)                                                                              |
-| loader                       | JSX.Element                                   | `<ActivityIndicator size="large" />` | It's located at bottom of the photos                                            |
-| loadingMoreLoader            | JSX.Element                                   | `<ActivityIndicator size="large" />` | It's located in center of the window                                            |
-| loadingMoreContainerStyle    | ViewStyle                                     |                                      |                                                                                 |
-| useCamera                    | boolean                                       | false                                |                                                                                 |
-| cameraButtonIcon             | JSX.Element                                   | Camera png image                     |                                                                                 |
-| cameraPreviewProps           | RNCameraProps                                 |                                      | Props of the `react-native-camera`                                              |
-| cameraPreviewStyle           | ViewStyle                                     |                                      |                                                                                 |
-| cameraFlipIcon               | JSX.Element                                   | Flip png image                       |                                                                                 |
-| cameraCaptureIcon            | JSX.Element                                   | Circle mark                          |                                                                                 |
-| imageZoom                    | boolean                                       | false                                | Deprecated 2.0.4 <                                                              |
-| imageZoom(Deprecated)        | boolean                                       | false                                | Deprecated 2.0.4 <                                                              |
-| zoomImageCloseButton         | JSX.Element                                   | close image                          |                                                                                 |
-| zoomImageCloseContainerStyle | ViewStyle                                     |                                      |                                                                                 |
-
-## Run Example
-
-- To run the example app, you have to check the *permissions* of the app
+- To run the example app, you have to check the _permissions_ of the app
 
 ```
 $ git clone https://github.com/skqksh/react-native-photo-selector
@@ -140,11 +109,11 @@ $ npm install
 $ npm run android
 ```
 
-## Sample usecase
+## :rocket: Sample usecase
 
 <a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/sample.gif"><img src="https://lh3.googleusercontent.com/bRVPIcqRYsIebCu_zTbZ14ObD9LmVVO99yLLO1d4WcS-mVpBrnYAj_P9h8xAY8rfGccOaZ5HEIFbcMwKh_MwokRLTcGn6GGb9CeGaqDbKg92NHC2KimHfTK6fkC3ORXdvb_SI8EiIKp5NFhJve97jJm5V7wJmj7d4AD1xNa6PEqqVjK26emx4u3S1J4eRnRThwvA6IZjAtsVj9gjRq8lrt891fKWFxLlBq-o9ecaaYo4uNRlyqqXKKBd-n7f9ca8WE8PyFIR12IlT1m7CBBD0DBzmaz8WSGO0o14cHzZChnWrwyOJ_KWjr36gi2ZqoEKMMwBTWV4NwZwPNsMc5aXZ2cWOZmKLntpFxOrL67eYVawjpc7HL3TBJt8jRdfo-GulTQ4oL-XM6hq0OSgNm6DAifBoOaCTF_BKgTglNN-f8NToBWseTky7DO22QLPg1ZQFz071mvHnHakm1iW_wZpxb-eDpeEMjwbTnPIjiZHNPFC7Cs4nTrFC1wqtsi69dWI_or_D-8tkgtVmvY9xso7IlFOh965kZ-oahKqYMxg6ET_gyWdrQ0Ieca0KPMorb18_nGL6bP4utmInK5kROZgb5eM9lChw5bvDL9U1Ud7uxqPvJxdIg4RqtLpSQYbquvqCGITqC1ppJtwwFkezybGYMgsjcymyQ--1cZk6YRTKDt3mcqb0aI5YHzXjpMYhQ=w366-h794-no?authuser=0" width="350"></a>
 
-## ETC
+## :star: ETC
 
 - Typescript Support
 - This library is based from [react-native-camera-roll-picker](https://www.npmjs.com/package/react-native-camera-roll-picker)
