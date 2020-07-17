@@ -6,7 +6,7 @@ CameraRoll Picker component for React native
 
 ### usecamera(option)
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dMl3tpVQrndfeo8dorkJ387KITG5XI5QQzf-y3tSYRn-Fn898G32j8qg_Z7uktsV8FFPOmvC7eDU6Bq_MQwMG3dd-fuae4Z8Pxvx1HF9Awj9saYunQrDQmNhHHzt-ilNFWN3gc4ejtFvFqKM7F1eif=w222-h480-no?authuser=0" width="350"></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photovideo.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3cyhUsKHVt-QsEI3X1PEN5e4itjoURHT_wQYJyaZlHiIHyDW3G8L-2TkH6whRfPLjjoeJvq8WUpGuUDLk0CYLsUBCsO5pHIFSZzgA23PnFryjngdxAVRv5NlenZJwCZWBoqBtqHgCSxO1fff__731cD=w222-h480-no?authuser=0" width="350"></a>
 
 ## Add to Project
 
@@ -43,218 +43,94 @@ const Demo = () => {
 
 ## Props (\* : required)
 
-### (\*)`callback`
+#### (\*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
 
-#### : Callback function when images was selected. Return a selected image array and current selected image.
+#### `initialNumToRender` : How many items to render in the initial batch
 
-| return         | value        |
-| -------------- | ------------ |
-| selectedImages | PhotoProps[] |
-| currentImage   | PhotoProps   |
+#### `groupTypes` : The group where the photos will be fetched
 
-### `initialNumToRender`
+#### `assetType` : The asset type
 
-#### : How many items to render in the initial batch
+#### `selected` : Already be selected images array. (Default: [])
 
-| type   | default | desc             |
-| ------ | ------- | ---------------- |
-| number | 5       | Flatlist's props |
+#### `selectSingleItem` : Boolean to select only one single image at time.
 
-### `groupTypes`
+#### `maximum` : Maximum number of selected images.
 
-#### : The group where the photos will be fetched
+#### `imagesPerRow` : Number of images per row.
 
-| type                 | options                                                                         | default       |
-| -------------------- | ------------------------------------------------------------------------------- | ------------- |
-| CameraRoll.GroupType | "Album" , "All" , "Event" , "Faces" , "Library" , "PhotoStream" , "SavedPhotos" | "SavedPhotos" |
+##### `imageMargin` : Margin size of one image.
 
-### `assetType`
+#### `containerWidth` : Width of camer roll picker container.
 
-#### : The asset type
+#### `selectedMarker` : Custom selected image marker component.
 
-| type                 | options                    | default  |
-| -------------------- | -------------------------- | -------- |
-| CameraRoll.GroupType | 'Photos', 'Videos' , 'All' | "Photos" |
+#### `backgroundColor` : Set background color.
 
-### `selected`
+#### `emptyText` : Text to display instead of a list when there are no photos found.
 
-#### : Already be selected images array. (Default: [])
+#### `emptyTextStyle` : Styles to apply to the `emptyText`.
 
-| type  | default |
-| ----- | ------- |
-| any[] | []      |
+#### `loader` : Loader component node.
 
-### `selectSingleItem`
+#### `loadingMoreLoader` : Loader component node when Loading Images.
 
-#### : Boolean to select only one single image at time.
+#### `loadingMoreContainerStyle` : loadingMoreLoader component container style.
 
-| type    | default |
-| ------- | ------- |
-| boolean | false   |
+#### `useCamera` : If use camera capture
 
-### `maximum`
+#### `cameraButtonIcon` : cameraButtonIcon component node.
 
-#### : Maximum number of selected images.
+#### `cameraPreviewProps` : props of react-native-camera.
 
-| type   | default |
-| ------ | ------- |
-| number | 15      |
+#### `cameraPreviewStyle` : Set camera preview style.
 
-### `imagesPerRow`
+#### `cameraFlipIcon` : Set camera preview style.
 
-#### : Number of images per row.
+#### `cameraCaptureIcon` : Set able to zoom image
 
-| type   | default |
-| ------ | ------- |
-| number | 3       |
+#### `imageZoom` (Deprecated 2.0.4 < ) : Set camera preview style.
 
-### `imageMargin`
+#### `zoomImageCloseButton` : Set button component of zoom-image
 
-#### : Margin size of one image.
+#### `zoomImageCloseContainerStyle` : Set constainer style of zoom-image button
 
-| type   | default |
-| ------ | ------- |
-| number | 5       |
 
-### `containerWidth`
+## Props (\* : required)
 
-#### : Width of camer roll picker container.
-
-| type   | default        |
-| ------ | -------------- |
-| number | 'device width' |
-
-### `selectedMarker`
-
-#### : Custom selected image marker component.
-
-| type                                                | default       | desc                              |
-| --------------------------------------------------- | ------------- | --------------------------------- |
-| JSX.Element \| (selectedNumber:number)=>JSX.Element | 'circle mark' | 'selectedNumber' is starts from 1 |
-
-### `backgroundColor`
-
-#### : Set background color.
-
-| type   | default |
-| ------ | ------- |
-| string | 'white' |
-
-### `emptyText`
-
-#### : Text to display instead of a list when there are no photos found.
-
-| type   | default      |
-| ------ | ------------ |
-| string | "No photos." |
-
-### `emptyTextStyle`
-
-#### : Styles to apply to the `emptyText`.
-
-| type   | default               |
-| ------ | --------------------- |
-| string | `textAlign: 'center'` |
-
-### `loader`
-
-#### : Loader component node.
-
-| type        | default                              |
-| ----------- | ------------------------------------ |
-| JSX.Element | `<ActivityIndicator size="large" />` |
-
-### `loadingMoreLoader`
-
-#### : Loader component node when Loading Images.
-
-| type        | default                              |
-| ----------- | ------------------------------------ |
-| JSX.Element | `<ActivityIndicator size="large" />` |
-
-### `loadingMoreContainerStyle`
-
-#### : loadingMoreLoader component container style.
-
-| type      |
-| --------- |
-| ViewStyle |
-
-### `useCamera`
-
-#### : If use camera capture
-
-| type    | default |
-| ------- | ------- |
-| boolean | false   |
-
-### `cameraButtonIcon`
-
-#### : cameraButtonIcon component node.
-
-| type        | default          |
-| ----------- | ---------------- |
-| JSX.Element | camera png image |
-
-### `cameraPreviewProps`
-
-#### : props of react-native-camera.
-
-| type          |
-| ------------- |
-| RNCameraProps |
-
-### `cameraPreviewStyle`
-
-#### : Set camera preview style.
-
-| type      |
-| --------- |
-| ViewStyle |
-
-### `cameraFlipIcon`
-
-#### : Set camera preview style.
-
-| type        | default        |
-| ----------- | -------------- |
-| JSX.Element | flip png image |
-
-### `cameraCaptureIcon`
-
-#### : Set able to zoom image
-
-| type        | default       |
-| ----------- | ------------- |
-| JSX.Element | 'circle mark' |
-
-### `imageZoom` (Deprecated 2.0.4 < )
-
-#### : Set camera preview style.
-
-| type    | default |
-| ------- | ------- |
-| boolean | false   |
-
-### `zoomImageCloseButton`
-
-#### : Set button component of zoom-image
-
-| type        | default     |
-| ----------- | ----------- |
-| JSX.Element | close image |
-
-### `zoomImageCloseContainerStyle`
-
-#### : Set constainer style of zoom-image button
-
-| type      |
-| --------- |
-| ViewStyle |
+| Props                        | type                                          | default                              | etc                                                                             |
+| ---------------------------- | --------------------------------------------- | ------------------------------------ | ------------------------------------------------------------------------------- |
+| \*callback                   | func                                          |                                      | (selectedImages:PhotoProps[],currentImage:PhotoProps)=>void                     |
+| initialNumToRender           | number                                        | 5                                    | Flatlist's props                                                                |
+| groupTypes                   | CameraRoll.GroupType                          | "SavedPhotos"                        | "Album" , "All" , "Event" , "Faces" , "Library" , "PhotoStream" , "SavedPhotos" |
+| assetType                    | CameraRoll.GroupType                          | "Photos"                             | "ALL" , "Videos" , "Photos"                                                     |
+| selected                     | any[]                                         | []                                   | Set array with which is returned by callback                                    |
+| selectSingleItem             | boolean                                       | false                                | If `true` , `maximum` option is ignored                                         |
+| maximum                      | number                                        | 15                                   | To use this option, `selectSingleItem` option must be `false`                   |
+| imagesPerRow                 | number                                        | 3                                    | Not Recommend to be over 10                                                     |
+| imageMargin                  | number                                        | 5                                    | :)                                                                              |
+| containerWidth               | number                                        | window.width                         | You can use react-native Dimensions to get window width                         |
+| selectedMarker               | JSX.Element \| (selected:number)=>JSX.Element | 'circle mark'                        | 'selected' is starts from 1                                                     |
+| backgroundColor              | string                                        | 'white'                              | :)                                                                              |
+| emptyText                    | string                                        | "No photos."                         | :)                                                                              |
+| emptyTextStyle               | TextStyle                                     | `textAlign: 'center'`                | :)                                                                              |
+| loader                       | JSX.Element                                   | `<ActivityIndicator size="large" />` | It's located at bottom of the photos                                            |
+| loadingMoreLoader            | JSX.Element                                   | `<ActivityIndicator size="large" />` | It's located in center of the window                                            |
+| loadingMoreContainerStyle    | ViewStyle                                     |                                      |                                                                                 |
+| useCamera                    | boolean                                       | false                                |                                                                                 |
+| cameraButtonIcon             | JSX.Element                                   | Camera png image                     |                                                                                 |
+| cameraPreviewProps           | RNCameraProps                                 |                                      | Props of the `react-native-camera`                                              |
+| cameraPreviewStyle           | ViewStyle                                     |                                      |                                                                                 |
+| cameraFlipIcon               | JSX.Element                                   | Flip png image                       |                                                                                 |
+| cameraCaptureIcon            | JSX.Element                                   | Circle mark                          |                                                                                 |
+| imageZoom                    | boolean                                       | false                                | Deprecated 2.0.4 <                                                              |
+| imageZoom(Deprecated)        | boolean                                       | false                                | Deprecated 2.0.4 <                                                              |
+| zoomImageCloseButton         | JSX.Element                                   | close image                          |                                                                                 |
+| zoomImageCloseContainerStyle | ViewStyle                                     |                                      |                                                                                 |
 
 ## Run Example
 
-- To run the example app, you have to check the permissions of the app
+- To run the example app, you have to check the *permissions* of the app
 
 ```
 $ git clone https://github.com/skqksh/react-native-photo-selector
@@ -266,7 +142,7 @@ $ npm run android
 
 ## Sample usecase
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/usecamera.gif"><img src="https://lh3.googleusercontent.com/bRVPIcqRYsIebCu_zTbZ14ObD9LmVVO99yLLO1d4WcS-mVpBrnYAj_P9h8xAY8rfGccOaZ5HEIFbcMwKh_MwokRLTcGn6GGb9CeGaqDbKg92NHC2KimHfTK6fkC3ORXdvb_SI8EiIKp5NFhJve97jJm5V7wJmj7d4AD1xNa6PEqqVjK26emx4u3S1J4eRnRThwvA6IZjAtsVj9gjRq8lrt891fKWFxLlBq-o9ecaaYo4uNRlyqqXKKBd-n7f9ca8WE8PyFIR12IlT1m7CBBD0DBzmaz8WSGO0o14cHzZChnWrwyOJ_KWjr36gi2ZqoEKMMwBTWV4NwZwPNsMc5aXZ2cWOZmKLntpFxOrL67eYVawjpc7HL3TBJt8jRdfo-GulTQ4oL-XM6hq0OSgNm6DAifBoOaCTF_BKgTglNN-f8NToBWseTky7DO22QLPg1ZQFz071mvHnHakm1iW_wZpxb-eDpeEMjwbTnPIjiZHNPFC7Cs4nTrFC1wqtsi69dWI_or_D-8tkgtVmvY9xso7IlFOh965kZ-oahKqYMxg6ET_gyWdrQ0Ieca0KPMorb18_nGL6bP4utmInK5kROZgb5eM9lChw5bvDL9U1Ud7uxqPvJxdIg4RqtLpSQYbquvqCGITqC1ppJtwwFkezybGYMgsjcymyQ--1cZk6YRTKDt3mcqb0aI5YHzXjpMYhQ=w366-h794-no?authuser=0" width="350"></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/sample.gif"><img src="https://lh3.googleusercontent.com/bRVPIcqRYsIebCu_zTbZ14ObD9LmVVO99yLLO1d4WcS-mVpBrnYAj_P9h8xAY8rfGccOaZ5HEIFbcMwKh_MwokRLTcGn6GGb9CeGaqDbKg92NHC2KimHfTK6fkC3ORXdvb_SI8EiIKp5NFhJve97jJm5V7wJmj7d4AD1xNa6PEqqVjK26emx4u3S1J4eRnRThwvA6IZjAtsVj9gjRq8lrt891fKWFxLlBq-o9ecaaYo4uNRlyqqXKKBd-n7f9ca8WE8PyFIR12IlT1m7CBBD0DBzmaz8WSGO0o14cHzZChnWrwyOJ_KWjr36gi2ZqoEKMMwBTWV4NwZwPNsMc5aXZ2cWOZmKLntpFxOrL67eYVawjpc7HL3TBJt8jRdfo-GulTQ4oL-XM6hq0OSgNm6DAifBoOaCTF_BKgTglNN-f8NToBWseTky7DO22QLPg1ZQFz071mvHnHakm1iW_wZpxb-eDpeEMjwbTnPIjiZHNPFC7Cs4nTrFC1wqtsi69dWI_or_D-8tkgtVmvY9xso7IlFOh965kZ-oahKqYMxg6ET_gyWdrQ0Ieca0KPMorb18_nGL6bP4utmInK5kROZgb5eM9lChw5bvDL9U1Ud7uxqPvJxdIg4RqtLpSQYbquvqCGITqC1ppJtwwFkezybGYMgsjcymyQ--1cZk6YRTKDt3mcqb0aI5YHzXjpMYhQ=w366-h794-no?authuser=0" width="350"></a>
 
 ## ETC
 
