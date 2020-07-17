@@ -28,3 +28,57 @@
 | imageZoom(Deprecated)        | boolean                                       | false                                | Deprecated 2.0.4 <                                                  |
 | zoomImageCloseButton         | JSX.Element                                   | close image                          |                                                                     |
 | zoomImageCloseContainerStyle | ViewStyle                                     |                                      |                                                                     |
+
+## Explanation
+
+#### (\*)`callback` : Callback function when images was selected. Return a selected image array and current selected image.
+
+#### `initialNumToRender` : How many items to render in the initial batch
+
+#### `groupTypes` : The group where the photos will be fetched
+
+#### `assetType` : The asset type
+
+#### `selected` : Already be selected images array. (Default: [])
+
+#### `selectSingleItem` : Boolean to select only one single image at time.
+
+#### `maximum` : Maximum number of selected images.
+
+#### `imagesPerRow` : Number of images per row.
+
+#### `imageMargin` : Margin size of one image.
+
+#### `containerWidth` : Width of camer roll picker container.
+
+#### `selectedMarker` : Custom selected image marker component.
+
+#### `backgroundColor` : Set background color.
+
+#### `emptyText` : Text to display instead of a list when there are no photos found.
+
+#### `emptyTextStyle` : Styles to apply to the `emptyText`.
+
+#### `loader` : Loader component node.
+
+#### `loadingMoreLoader` : Loader component node when Loading Images.
+
+#### `loadingMoreContainerStyle` : loadingMoreLoader component container style.
+
+#### `useCamera` : If use camera capture
+
+#### `cameraButtonIcon` : cameraButtonIcon component node.
+
+#### `cameraPreviewProps` : props of react-native-camera.
+
+#### `cameraPreviewStyle` : Set camera preview style.
+
+#### `cameraFlipIcon` : Set camera preview style.
+
+#### `cameraCaptureIcon` : Set able to zoom image
+
+#### `imageZoom` (Deprecated 2.0.4 < ) : Boolean to use image zoom
+
+#### `zoomImageCloseButton` : Set button component of zoom-image
+
+#### `zoomImageCloseContainerStyle` : Set constainer style of zoom-image button
