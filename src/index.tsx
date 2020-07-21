@@ -162,7 +162,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 
   function doFetch(init?: boolean): void {
     const fetchParams: CameraRoll.GetPhotosParams = {
-      first: 100,
+      first: 200,
       groupTypes: groupTypes,
       assetType: assetType,
     }
@@ -272,6 +272,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       <FlatList
         style={{ flex: 1 }}
         initialNumToRender={initialNumToRender}
+        onEndReachedThreshold={0.7}
         onEndReached={onEndReached}
         renderItem={({ item }): JSX.Element =>
           item ? renderRow(item) : <View />
@@ -291,7 +292,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       <View
         style={[
           styles.wrapper,
-          { padding: imageMargin, paddingRight: 0, backgroundColor },
+          { padding: imageMargin, backgroundColor },
         ]}
       >
         {flatListOrEmptyText}
