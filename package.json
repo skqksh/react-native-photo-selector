@@ -1,9 +1,10 @@
 {
   "name": "react-native-photo-selector",
   "description": "A React Native component providing images selection from camera roll ",
-  "version": "2.2.6",
+  "version": "2.3.0",
   "author": "blue",
   "dependencies": {
+    "@react-native-community/cameraroll": "^4.0.0",
     "lodash": "^4.17.19",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
@@ -11,26 +12,25 @@
     "react": "16.11.0",
     "react-dom": "^16.13.1",
     "react-native": "^0.62.2",
-    "react-native-camera": "^3.29.0",
+    "react-native-camera": "^3.32.0",
     "react-native-image-pan-zoom": "^2.1.12"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.0",
-    "@babel/plugin-proposal-decorators": "^7.10.0",
-    "@react-native-community/cameraroll": "^1.7.2",
-    "@react-native-community/eslint-config": "^1.1.0",
-    "@types/react-native": "^0.62.11",
-    "@typescript-eslint/eslint-plugin": "^3.0.1",
-    "@typescript-eslint/parser": "^3.0.1",
-    "eslint": "^7.1.0",
-    "eslint-config-airbnb": "^18.1.0",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^4.0.4",
-    "metro-react-native-babel-preset": "^0.59.0",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/react-native": "^0.63.1",
+    "@typescript-eslint/eslint-plugin": "^3.7.0",
+    "@typescript-eslint/parser": "^3.7.0",
+    "eslint": "^7.5.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "metro-react-native-babel-preset": "^0.60.0",
     "react-native-typescript-transformer": "^1.2.13",
-    "typescript": "^3.9.3"
+    "typescript": "^3.9.7"
   },
   "bugs": {
     "url": "https://github.com/skqksh/react-native-photo-selector/issues"
@@ -60,6 +60,8 @@
   "scripts": {
     "build": "tsc",
     "prepublish": "tsc",
+    "publish:latest": "npm publish",
+    "publish:beta": "npm publish --tag beta",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
