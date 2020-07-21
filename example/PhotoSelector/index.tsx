@@ -33,13 +33,12 @@ export interface PhotoSelectorOptions {
 }
 
 export interface PhotoProps {
-  filename: string
+  filename: string | null
   uri: string
   height: number
   width: number
-  fileSize?: number
-  isStored?: boolean | undefined
-  playableDuration?: number
+  fileSize: number | null
+  playableDuration: number | null
 }
 
 export interface PhotoSelectorProps {

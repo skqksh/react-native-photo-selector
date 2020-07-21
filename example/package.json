@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@react-native-community/cameraroll": "^1.7.2",
+    "@react-native-community/cameraroll": "^4.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "mobx-react-lite": "^2.0.7",
@@ -18,7 +18,7 @@
     "react-dom": "^16.13.1",
     "react-native": "0.62.2",
     "react-native-camera": "^3.30.0",
-    "react-native-photo-selector": "^2.2.6"
+    "react-native-photo-selector": "^2.3.0-beta.1"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
