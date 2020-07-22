@@ -1,12 +1,14 @@
-# react-native-photo-selector
+# react-native-photo-selector v3.x.x
 
 CameraRoll Picker component for React native
+
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/README.md"><h3>v2.x.x is still available</h3></a>
 
 ## DEMO
 
 ### :arrow_forward: usecamera(option)
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photovideo.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3cyhUsKHVt-QsEI3X1PEN5e4itjoURHT_wQYJyaZlHiIHyDW3G8L-2TkH6whRfPLjjoeJvq8WUpGuUDLk0CYLsUBCsO5pHIFSZzgA23PnFryjngdxAVRv5NlenZJwCZWBoqBtqHgCSxO1fff__731cD=w222-h480-no?authuser=0" width="350"></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photo-selector-v3.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dyBBE4ybjwxColf7gaOWrv3dsOqXXKOa0u4rRgbe-bfrBlptj7z5eQ8Jn40ToPZzem8aL0P6DAfzzLA4bgozS16VN-6Pl3reA4Eu-uLJ1t4oIjNxhyr-zIOclb5Fsq4E57DjvTFGHVcyctJKBziarx=w222-h480-no?authuser=0" width="350"></a>
 
 ## :heavy_plus_sign: Add to Project
 
@@ -15,7 +17,7 @@ CameraRoll Picker component for React native
   - [react-native-cameraroll](https://github.com/react-native-community/react-native-cameraroll)
 
 ```
-$ npm i @react-native-community/cameraroll react-native-camera
+$ npm i @react-native-community/cameraroll react-native-camera react-native-fast-image
 ```
 
 - Install component through npm
@@ -51,15 +53,11 @@ const Demo = () => {
 
 ```
 $ git clone https://github.com/skqksh/react-native-photo-selector
-$ cd react-native-photo-selector
+$ cd react-native-photo-selector@latest
 $ cd example
 $ npm install
 $ npm run android
 ```
-
-## :rocket: Sample usecase
-
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/sample.gif"><img src="https://lh3.googleusercontent.com/bRVPIcqRYsIebCu_zTbZ14ObD9LmVVO99yLLO1d4WcS-mVpBrnYAj_P9h8xAY8rfGccOaZ5HEIFbcMwKh_MwokRLTcGn6GGb9CeGaqDbKg92NHC2KimHfTK6fkC3ORXdvb_SI8EiIKp5NFhJve97jJm5V7wJmj7d4AD1xNa6PEqqVjK26emx4u3S1J4eRnRThwvA6IZjAtsVj9gjRq8lrt891fKWFxLlBq-o9ecaaYo4uNRlyqqXKKBd-n7f9ca8WE8PyFIR12IlT1m7CBBD0DBzmaz8WSGO0o14cHzZChnWrwyOJ_KWjr36gi2ZqoEKMMwBTWV4NwZwPNsMc5aXZ2cWOZmKLntpFxOrL67eYVawjpc7HL3TBJt8jRdfo-GulTQ4oL-XM6hq0OSgNm6DAifBoOaCTF_BKgTglNN-f8NToBWseTky7DO22QLPg1ZQFz071mvHnHakm1iW_wZpxb-eDpeEMjwbTnPIjiZHNPFC7Cs4nTrFC1wqtsi69dWI_or_D-8tkgtVmvY9xso7IlFOh965kZ-oahKqYMxg6ET_gyWdrQ0Ieca0KPMorb18_nGL6bP4utmInK5kROZgb5eM9lChw5bvDL9U1Ud7uxqPvJxdIg4RqtLpSQYbquvqCGITqC1ppJtwwFkezybGYMgsjcymyQ--1cZk6YRTKDt3mcqb0aI5YHzXjpMYhQ=w366-h794-no?authuser=0" width="350"></a>
 
 ## :star: ETC
 
