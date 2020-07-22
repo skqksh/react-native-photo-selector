@@ -1,9 +1,7 @@
 import React from 'react'
 import { SafeAreaView, View, Text, StyleSheet } from 'react-native'
 
-import CameraRollSelector, {
-  PhotoProps,
-} from 'react-native-photo-selector'
+import CameraRollSelector, { PhotoProps } from './PhotoSelector'
 
 const App = (): JSX.Element => {
   const _callback = (
@@ -20,32 +18,23 @@ const App = (): JSX.Element => {
         <CameraRollSelector
           callback={_callback}
           maximum={3}
-          assetType="All"
-          groupTypes="All"
-          imagesPerRow={3}
-          imageMargin={5}
-          useCamera={true}
-          loader={
-            <View>
-              <Text>Initializing...</Text>
-            </View>
-          }
-          loadingMoreContainerStyle={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            backgroundColor: '#abcabcAA',
-            justifyContent: 'center',
-            alignItems: 'center',
+          assetType="Photos"
+          groupTypes="Album"
+          loadingOption={{
+            initialLoader: (
+              <View>
+                <Text>Initializing...</Text>
+              </View>
+            ),
           }}
-          loadingMoreLoader={
-            <View>
-              <Text>Loading...</Text>
-            </View>
-          }
-          emptyText={
-            'no photos... If there are any images in your album, please check your app permissions'
-          }
+          imageListOption={{
+            ListEmptyComponent: (
+              <Text>
+                no photos... If there are any images in your album,
+                please check your app permissions
+              </Text>
+            ),
+          }}
         />
       </View>
     </SafeAreaView>

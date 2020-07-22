@@ -1,36 +1,32 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   Modal,
-  Platform,
   StyleSheet,
   View,
   ViewStyle,
   Text,
   FlatList,
   ActivityIndicator,
-  TextStyle,
   TouchableOpacity,
   Image,
   Dimensions,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
-import { RNCameraProps } from 'react-native-camera'
 import ImageZoom from 'react-native-image-pan-zoom'
+import _ from 'lodash'
 import 'mobx-react-lite/batchingForReactDom'
 
 import CheckIcon from './components/CheckIcon'
 
+import Header, { HeaderProps } from './components/Header'
 import ImageItem from './components/Item'
-import CameraButton from './components/CameraButton'
+import CameraButton, { CameraProps } from './components/CameraButton'
+import FolderList, { FolderProps } from './components/FolderList'
 import CommonStore from './store/CommonStore'
 
 const { width: windowWidth, height: windowHeight } = Dimensions.get(
   'window'
 )
-
-export interface PhotoSelectorOptions {
-  type: 'camera'
-}
 
 export interface PhotoProps {
   filename: string | null
@@ -41,147 +37,208 @@ export interface PhotoProps {
   playableDuration: number | null
 }
 
-export interface PhotoSelectorProps {
+interface ImageListProps {
   initialNumToRender?: number
+  containerWidth?: number
+  ListEmptyComponent?: JSX.Element
+  imagesPerRow?: number
+  imageMargin?: number
+}
+
+interface ZoomImageProps {
+  closeButton?: JSX.Element
+  closeContainerStyle?: ViewStyle
+}
+
+interface LoadingProps {
+  initialLoader?: JSX.Element
+}
+
+export interface PhotoSelectorProps {
   groupTypes?: CameraRoll.GroupType
   maximum?: number
   assetType?: CameraRoll.AssetType
   selectSingleItem?: boolean
-  imagesPerRow?: number
-  imageMargin?: number
-  containerWidth?: number
   callback: (
     selectedImages: PhotoProps[],
     currentImage: PhotoProps
   ) => void
-  selected?: any[]
+  selectedImagesUri?: string[]
   selectedMarker?: ((index: number) => JSX.Element) | JSX.Element
-  backgroundColor?: string
-  emptyText?: string
-  emptyTextStyle?: TextStyle
-  loader?: JSX.Element
-  loadingMoreLoader?: JSX.Element
-  loadingMoreContainerStyle?: ViewStyle
-  useCamera?: boolean
-  cameraButtonIcon?: JSX.Element
-  cameraPreviewProps?: RNCameraProps
-  cameraPreviewStyle?: ViewStyle
-  cameraFlipIcon?: JSX.Element
-  cameraCaptureIcon?: JSX.Element
-  zoomImageCloseButton?: JSX.Element
-  zoomImageCloseContainerStyle?: ViewStyle
+  loadingOption?: LoadingProps
+  zoomImageOption?: ZoomImageProps
+  imageListOption?: ImageListProps
+  cameraOption?: CameraProps
+  headerOption?: HeaderProps
 }
 
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const {
-    initialNumToRender = 5,
-    groupTypes = 'SavedPhotos',
+    groupTypes = 'Album',
     maximum = 15,
-    imagesPerRow = 3,
-    imageMargin = 5,
     selectSingleItem = false,
     assetType = 'Photos',
-    backgroundColor = 'white',
     callback = (): void => {
       return
     },
-    selected = [],
-    emptyText = 'No photos.',
-    useCamera = false,
-    cameraButtonIcon,
-    cameraPreviewProps,
-    cameraPreviewStyle,
-    cameraFlipIcon,
-    cameraCaptureIcon,
-    zoomImageCloseButton,
-    zoomImageCloseContainerStyle,
-    ...rest
+    selectedImagesUri = [],
+    zoomImageOption,
+    imageListOption,
+    loadingOption,
+    cameraOption,
+    headerOption,
   } = props
 
   const [lastCursor, setLastCursor] = useState<string>()
   const [initialLoading, setInitialLoading] = useState<boolean>(true)
   const [loadingMore, setLoadingMore] = useState<boolean>(false)
-  const [noMore, setNoMore] = useState<boolean>(false)
-  const [data, setData] = useState<
-    (PhotoProps | PhotoSelectorOptions)[]
-  >([])
+  const [hasNextPage, setPageInfo] = useState<boolean>(true)
+  const [data, setData] = useState<PhotoProps[]>([])
 
   const [zoomImage, setZoomImage] = useState<string>()
 
+  const [imageSize, setImageSize] = useState<number>(0)
+
+  const [showFolderList, setShowFolderList] = useState<boolean>(false)
+  const [groupName, setGroupName] = useState<string>()
+  const [folderList, setForderList] = useState<FolderProps[]>([])
+
+  const flatListRef = useRef<FlatList>(null)
+
+  const imagesPerRow = imageListOption?.imagesPerRow
+    ? imageListOption.imagesPerRow
+    : 3
+  const imageMargin = imageListOption?.imageMargin
+    ? imageListOption.imageMargin
+    : 5
+
+  function _setImageSize(): void {
+    let width = windowWidth
+    const containerWidth = imageListOption?.containerWidth
+    if (containerWidth) {
+      width = containerWidth
+    }
+
+    setImageSize(
+      (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
+    )
+  }
+
+  function _addFolderList(props: {
+    title: string
+    groupName?: string
+    count: number
+  }): void {
+    CameraRoll.getPhotos({
+      first: 1,
+      groupName: props.groupName,
+      groupTypes: groupTypes,
+      assetType: assetType,
+    }).then(({ edges }) => {
+      if (edges.length > 0) {
+        setForderList((ori) =>
+          ori.concat([
+            {
+              ...props,
+              mainImageUrl: edges[0].node.image.uri,
+            },
+          ])
+        )
+      }
+    })
+  }
+
+  function _getAlbum(): void {
+    CameraRoll.getAlbums({
+      assetType: assetType,
+    }).then((list) => {
+      // All
+      _addFolderList({
+        title: 'All',
+        count: _.sum(list.map((x) => x.count)),
+      })
+
+      // Folder List
+      _.forEach(
+        list,
+        async (item: { title: string; count: number }) => {
+          _addFolderList({
+            ...item,
+            groupName: item.title,
+          })
+        }
+      )
+    })
+  }
+
   useEffect(() => {
-    CommonStore.localSelected = selected
-    CommonStore.localSelectedUri = selected.map((o) => o.uri)
-    if (useCamera) setData([{ type: 'camera' }])
+    const defaultLocaleSelected: PhotoProps[] = _.map(
+      selectedImagesUri,
+      (uri) => ({
+        filename: null,
+        uri,
+        height: 0,
+        width: 0,
+        fileSize: null,
+        playableDuration: null,
+      })
+    )
+    CommonStore.localSelected = defaultLocaleSelected
+    _setImageSize()
+    _getAlbum()
     fetch()
   }, [])
 
-  function onEndReached(): void {
-    if (!noMore) {
-      fetch()
-    }
+  useEffect(() => {
+    _resetGetPhotos()
+  }, [groupName])
+
+  function _resetGetPhotos(): void {
+    setData([])
+    getPhotosWithCameraRoll(true)
   }
-
-  function appendImages({
-    data,
-    init,
-  }: {
-    data: CameraRoll.PhotoIdentifiersPage
-    init?: boolean
-  }): void {
-    const assets = data.edges
-
-    if (!data.page_info.has_next_page) {
-      setNoMore(true)
-    }
-
-    if (assets.length > 0) {
-      const asstesImages = assets.map(({ node: { image } }) => {
-        return image
-      })
-      setLastCursor(data.page_info.end_cursor)
-
-      setData((ori) => {
-        return init
-          ? useCamera
-            ? [{ type: 'camera' }, ...asstesImages]
-            : asstesImages
-          : ori.concat(asstesImages)
-      })
-    }
-
-    setLoadingMore(false)
-    setInitialLoading(false)
+  function _onEndReached(): void {
+    fetch()
   }
 
   function fetch(): void {
     if (!loadingMore) {
-      setLoadingMore(true)
-      doFetch()
+      getPhotosWithCameraRoll()
     }
   }
 
-  function doFetch(init?: boolean): void {
-    const fetchParams: CameraRoll.GetPhotosParams = {
-      first: 200,
-      groupTypes: groupTypes,
-      assetType: assetType,
+  function getPhotosWithCameraRoll(init?: boolean): void {
+    if (hasNextPage || init) {
+      setLoadingMore(true)
+      const fetchParams: CameraRoll.GetPhotosParams = {
+        first: 100,
+        groupTypes: groupTypes,
+        assetType: assetType,
+        groupName,
+      }
+
+      fetchParams.after = init ? undefined : lastCursor
+
+      CameraRoll.getPhotos(fetchParams).then(
+        ({ page_info, edges }) => {
+          setPageInfo(page_info.has_next_page)
+          setLastCursor(page_info.end_cursor)
+          const asstesImages = edges.map(({ node: { image } }) => {
+            return image
+          })
+          setData((ori) =>
+            init ? asstesImages : ori.concat(asstesImages)
+          )
+          setLoadingMore(false)
+          setInitialLoading(false)
+        }
+      )
     }
-
-    if (Platform.OS === 'android') {
-      // not supported in android
-      delete fetchParams.groupTypes
-    }
-
-    fetchParams.after = init ? undefined : lastCursor
-
-    CameraRoll.getPhotos(fetchParams).then((data) =>
-      appendImages({ data, init })
-    )
   }
 
   function selectImage(image: PhotoProps): void {
-    const { localSelected, localSelectedUri } = CommonStore
-    const index = localSelectedUri.indexOf(image.uri)
+    const { localSelected } = CommonStore
+    const index = localSelected.map((x) => x.uri).indexOf(image.uri)
 
     if (index >= 0) {
       localSelected.splice(index, 1)
@@ -195,8 +252,25 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     CommonStore.localSelected = localSelected
-    CommonStore.localSelectedUri = localSelected.map((o) => o.uri)
     callback(localSelected, image)
+  }
+
+  function takePhoto(): void {
+    _resetGetPhotos()
+  }
+
+  const HeaderCenter = (): JSX.Element => {
+    return (
+      <TouchableOpacity
+        onPress={(): void => {
+          setShowFolderList(!showFolderList)
+        }}
+      >
+        <Text>
+          {groupName || 'All'} {showFolderList ? '▲' : '▼'}
+        </Text>
+      </TouchableOpacity>
+    )
   }
 
   const selectedMarker = (index: number): JSX.Element => {
@@ -212,145 +286,135 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     return <CheckIcon index={index} />
   }
 
-  function takePhoto(): void {
-    doFetch(true)
-  }
-
-  function renderRow(
-    item: PhotoProps | PhotoSelectorOptions
-  ): JSX.Element {
-    if ('uri' in item) {
-      return (
-        <ImageItem
-          {...{
-            item,
-            imageMargin,
-            selectedMarker,
-            imagesPerRow,
-            containerWidth: props.containerWidth,
-            onClick: selectImage,
-            setZoomImage,
-          }}
-        />
-      )
-    }
-
-    return (
-      <CameraButton
-        {...{
-          imageMargin,
-          imagesPerRow,
-          containerWidth: props.containerWidth,
-          takePhoto,
-          cameraButtonIcon,
-          cameraPreviewProps,
-          cameraPreviewStyle,
-          cameraFlipIcon,
-          cameraCaptureIcon,
-        }}
-      />
-    )
-  }
-
-  const {
-    emptyTextStyle,
-    loader,
-    loadingMoreLoader,
-    loadingMoreContainerStyle,
-  } = rest
-
   if (initialLoading) {
     return (
-      <View style={[styles.loader, { backgroundColor }]}>
-        {loader || <ActivityIndicator size="large" />}
-      </View>
+      <>
+        {loadingOption?.initialLoader || (
+          <View style={styles.loader}>
+            <ActivityIndicator size="large" />
+          </View>
+        )}
+      </>
     )
   }
-
-  const flatListOrEmptyText =
-    data.length > 0 ? (
-      <FlatList
-        style={{ flex: 1 }}
-        initialNumToRender={initialNumToRender}
-        onEndReachedThreshold={0.7}
-        onEndReached={onEndReached}
-        renderItem={({ item }): JSX.Element =>
-          item ? renderRow(item) : <View />
-        }
-        numColumns={imagesPerRow}
-        keyExtractor={(item, i): string => `photo-selector-${i}`}
-        data={data}
-      />
-    ) : (
-      <Text style={[{ textAlign: 'center' }, emptyTextStyle]}>
-        {emptyText}
-      </Text>
-    )
 
   return (
     <>
-      <View
-        style={[
-          styles.wrapper,
-          { padding: imageMargin, backgroundColor },
-        ]}
-      >
-        {flatListOrEmptyText}
-      </View>
-      <Modal
-        visible={!!zoomImage}
-        onRequestClose={(): void => {
-          setZoomImage(undefined)
-        }}
-      >
-        {zoomImage && (
-          <ImageZoom
-            cropWidth={windowWidth}
-            cropHeight={windowHeight}
-            imageWidth={windowWidth}
-            imageHeight={windowHeight}
-            enableSwipeDown={true}
-            onSwipeDown={(): void => {
+      <Header
+        hearderLeftComponent={
+          headerOption?.hearderLeftComponent || (
+            <View style={{ width: 20 }} />
+          )
+        }
+        hearderCenterComponent={
+          headerOption?.hearderCenterComponent || <HeaderCenter />
+        }
+        hearderRightComponent={
+          headerOption?.hearderRightComponent || (
+            <CameraButton
+              {...{
+                takePhoto,
+                ...cameraOption,
+              }}
+            />
+          )
+        }
+      />
+      {showFolderList ? (
+        <FolderList
+          {...{ folderList, setGroupName, setShowFolderList }}
+        />
+      ) : (
+        <>
+          <FlatList
+            ref={flatListRef}
+            contentContainerStyle={{
+              padding: imageMargin,
+            }}
+            initialNumToRender={imageListOption?.initialNumToRender}
+            onEndReachedThreshold={0.5}
+            onEndReached={_onEndReached}
+            renderItem={({ item }): JSX.Element => (
+              <ImageItem
+                {...{
+                  item,
+                  imageMargin,
+                  selectedMarker,
+                  imageSize,
+                  onClick: selectImage,
+                  setZoomImage,
+                }}
+              />
+            )}
+            numColumns={imagesPerRow}
+            keyExtractor={(item, i): string => `photo-selector-${i}`}
+            data={data}
+            ListEmptyComponent={
+              <>
+                {!loadingMore && (
+                  <>
+                    {imageListOption?.ListEmptyComponent || (
+                      <Text style={{ textAlign: 'center' }}>
+                        No Photos...
+                      </Text>
+                    )}
+                  </>
+                )}
+              </>
+            }
+            ListFooterComponent={
+              <>{hasNextPage && <ActivityIndicator size="large" />}</>
+            }
+          />
+          <Modal
+            visible={!!zoomImage}
+            onRequestClose={(): void => {
               setZoomImage(undefined)
             }}
           >
-            <Image
-              style={{
-                width: windowWidth,
-                height: windowHeight,
-              }}
-              resizeMode="contain"
-              resizeMethod="scale"
-              source={{
-                uri: zoomImage,
-              }}
-            />
-          </ImageZoom>
-        )}
+            {zoomImage && (
+              <ImageZoom
+                cropWidth={windowWidth}
+                cropHeight={windowHeight}
+                imageWidth={windowWidth}
+                imageHeight={windowHeight}
+                enableSwipeDown={true}
+                onSwipeDown={(): void => {
+                  setZoomImage(undefined)
+                }}
+              >
+                <Image
+                  style={{
+                    width: windowWidth,
+                    height: windowHeight,
+                  }}
+                  resizeMode="contain"
+                  resizeMethod="scale"
+                  source={{
+                    uri: zoomImage,
+                  }}
+                />
+              </ImageZoom>
+            )}
 
-        <TouchableOpacity
-          style={[styles.close, zoomImageCloseContainerStyle]}
-          onPress={(): void => {
-            setZoomImage(undefined)
-          }}
-        >
-          {zoomImageCloseButton || (
-            <Image
-              source={require('./assets/close.png')}
-              style={{ width: '100%', height: '100%' }}
-            />
-          )}
-        </TouchableOpacity>
-      </Modal>
-      {loadingMore && (
-        <View
-          style={
-            loadingMoreContainerStyle ||
-            styles.loadingMoreContainerStyle
-          }
-        >
-          {loadingMoreLoader || <ActivityIndicator size="large" />}
-        </View>
+            <TouchableOpacity
+              style={[
+                styles.close,
+                zoomImageOption?.closeContainerStyle,
+              ]}
+              onPress={(): void => {
+                setZoomImage(undefined)
+              }}
+            >
+              {zoomImageOption?.closeButton || (
+                <Image
+                  source={require('./assets/close.png')}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              )}
+            </TouchableOpacity>
+          </Modal>
+        </>
       )}
     </>
   )
@@ -359,9 +423,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 export default PhotoSelector
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flexGrow: 1,
-  },
   loader: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -373,13 +434,5 @@ const styles = StyleSheet.create({
     top: 40,
     width: 30,
     height: 30,
-  },
-  loadingMoreContainerStyle: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#ffffffAA',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 })
