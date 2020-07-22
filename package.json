@@ -1,7 +1,7 @@
 {
   "name": "react-native-photo-selector",
   "description": "A React Native component providing images selection from camera roll ",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "author": "blue",
   "dependencies": {
     "@react-native-community/cameraroll": "^4.0.0",
@@ -60,8 +60,8 @@
   "scripts": {
     "build": "tsc",
     "prepublish": "tsc",
-    "publish:latest": "npm publish",
-    "publish:beta": "npm publish --tag beta",
+    "publish": "npm publish --tag previous",
+    "publish:beta": "npm publish --tag previous-beta",
     "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
