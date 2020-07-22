@@ -2,7 +2,7 @@
 
 CameraRoll Picker component for React native
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/README.md"><h3>v2.x.x is still available</h3></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/PhotoSelector_v2.md"><h3>v2.x.x is still available</h3></a>
 
 ## DEMO
 
