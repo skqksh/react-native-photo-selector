@@ -1,23 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import {
-  Image,
-  StyleSheet,
-  Dimensions,
-  TouchableOpacity,
-} from 'react-native'
+import React from 'react'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { observer } from 'mobx-react'
 
-import { PhotoProps } from '../index'
 import CommonStore from '../store/CommonStore'
 
-const { width: windowWidth } = Dimensions.get('window')
+import { PhotoProps } from '../index'
 
 export interface ItemProps {
   item: PhotoProps
   selectedMarker: (index: number) => JSX.Element
   imageMargin: number
-  imagesPerRow: number
-  containerWidth?: number
+  imageSize: number
   onClick: (item: PhotoProps) => void
   setZoomImage: React.Dispatch<
     React.SetStateAction<string | undefined>
@@ -29,38 +23,15 @@ const Item = observer(
     item,
     selectedMarker,
     imageMargin,
-    imagesPerRow,
-    containerWidth,
+    imageSize,
     onClick,
     setZoomImage,
   }: ItemProps): JSX.Element => {
-    const { localSelectedUri } = CommonStore
-    const selectedIndex =
-      localSelectedUri.length > 0
-        ? localSelectedUri.indexOf(item.uri)
-        : -1
+    const { localSelected } = CommonStore
 
-    const CheckIconImageZoom = (): JSX.Element => {
-      return (
-        <TouchableOpacity
-          style={styles.checkIconImageZoom}
-          onPress={(): void => _handleClick(item)}
-        />
-      )
-    }
-
-    const [imageSize, setImageSize] = useState<number>(0)
-
-    useEffect(() => {
-      let width = windowWidth
-      if (typeof containerWidth !== 'undefined') {
-        width = containerWidth
-      }
-      setImageSize(
-        (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
-      )
-    }, [])
-
+    const selectedIndex = localSelected
+      .map((x) => x.uri)
+      .indexOf(item.uri)
     function _handleClick(item: PhotoProps): void {
       onClick(item)
     }
@@ -75,9 +46,10 @@ const Item = observer(
           setZoomImage(item.uri)
         }}
       >
-        <Image
+        <FastImage
           source={{ uri: item.uri }}
           style={{ height: imageSize, width: imageSize }}
+          resizeMode={FastImage.resizeMode.cover}
         />
 
         <TouchableOpacity
@@ -89,7 +61,7 @@ const Item = observer(
           {selectedIndex > -1 ? (
             selectedMarker(selectedIndex + 1)
           ) : (
-            <CheckIconImageZoom />
+            <View style={styles.selectMarker} />
           )}
         </TouchableOpacity>
       </TouchableOpacity>
@@ -107,7 +79,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     position: 'absolute',
   },
-  checkIconImageZoom: {
+  selectMarker: {
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',

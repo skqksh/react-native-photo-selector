@@ -11,9 +11,7 @@ import {
 import { RNCamera, RNCameraProps } from 'react-native-camera'
 import CameraRoll from '@react-native-community/cameraroll'
 
-interface CameraScreenProps {
-  takePhoto: () => void
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+export interface CameraScreenProps {
   cameraPreviewProps?: RNCameraProps
   cameraPreviewStyle?: ViewStyle
   cameraFlipIcon?: JSX.Element
@@ -27,7 +25,10 @@ const CameraScreen = ({
   cameraPreviewStyle,
   cameraFlipIcon,
   cameraCaptureIcon,
-}: CameraScreenProps): JSX.Element => {
+}: CameraScreenProps & {
+  takePhoto: () => void
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+}): JSX.Element => {
   const cameraRef = useRef<RNCamera>(null)
   const [cameraType, setCameraType] = useState(
     RNCamera.Constants.Type.back
