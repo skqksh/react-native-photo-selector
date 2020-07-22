@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 55,
+    borderBottomWidth: 1,
+    borderBottomColor: 'gray',
   },
   hearderLeftStyle: {},
   hearderCenterStyle: {

@@ -125,6 +125,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   }
 
   function _addFolderList(props: {
+    index: number
     title: string
     groupName?: string
     count: number
@@ -155,15 +156,17 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       // All
       _addFolderList({
         title: 'All',
+        index: 0,
         count: _.sum(list.map((x) => x.count)),
       })
 
       // Folder List
       _.forEach(
         list,
-        async (item: { title: string; count: number }) => {
+        async (item: { title: string; count: number }, index) => {
           _addFolderList({
             ...item,
+            index: index + 1,
             groupName: item.title,
           })
         }

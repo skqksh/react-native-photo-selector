@@ -13,6 +13,7 @@ export interface FolderListProps {
 }
 
 export interface FolderProps {
+  index: number
   title: string
   groupName?: string
   mainImageUrl: string
@@ -32,9 +33,9 @@ const FolderList = ({
   return (
     <>
       {folderList && (
-        <ScrollView style={{ paddingHorizontal: 10 }}>
+        <ScrollView style={{ paddingHorizontal: 10, paddingTop: 10 }}>
           {_.map(
-            folderList,
+            folderList.sort((a, b) => a.index - b.index),
             (item: FolderProps, i: number): JSX.Element => {
               return (
                 <TouchableOpacity
