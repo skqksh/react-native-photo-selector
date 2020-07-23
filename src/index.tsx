@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  Platform,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
@@ -55,7 +56,6 @@ interface LoadingProps {
 }
 
 export interface PhotoSelectorProps {
-  groupTypes?: CameraRoll.GroupType
   maximum?: number
   assetType?: CameraRoll.AssetType
   selectSingleItem?: boolean
@@ -74,7 +74,6 @@ export interface PhotoSelectorProps {
 
 const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const {
-    groupTypes = 'Album',
     maximum = 15,
     selectSingleItem = false,
     assetType = 'Photos',
@@ -128,12 +127,12 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     index: number
     title: string
     groupName?: string
-    count: number
+    count: number | string
   }): void {
     CameraRoll.getPhotos({
       first: 1,
       groupName: props.groupName,
-      groupTypes: groupTypes,
+      groupTypes: props.groupName ? 'Album' : 'All',
       assetType: assetType,
     }).then(({ edges }) => {
       if (edges.length > 0) {
@@ -150,15 +149,34 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   }
 
   function _getAlbum(): void {
+    if (Platform.OS === 'ios') {
+      const getPhotoMax = 5000
+      CameraRoll.getPhotos({
+        first: getPhotoMax,
+        assetType,
+        groupTypes: 'All',
+      }).then((result) => {
+        const { length } = result.edges
+
+        _addFolderList({
+          title: 'All',
+          index: 0,
+          count: `${length}${length < getPhotoMax ? '' : '+'}`,
+        })
+      })
+    }
+
     CameraRoll.getAlbums({
-      assetType: assetType,
+      assetType,
     }).then((list) => {
       // All
-      _addFolderList({
-        title: 'All',
-        index: 0,
-        count: _.sum(list.map((x) => x.count)),
-      })
+      if (Platform.OS !== 'ios') {
+        _addFolderList({
+          title: 'All',
+          index: 0,
+          count: _.sum(list.map((x) => x.count)),
+        })
+      }
 
       // Folder List
       _.forEach(
@@ -215,7 +233,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
       setLoadingMore(true)
       const fetchParams: CameraRoll.GetPhotosParams = {
         first: 100,
-        groupTypes: groupTypes,
+        groupTypes: groupName ? 'Album' : 'All',
         assetType: assetType,
         groupName,
       }

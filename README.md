@@ -58,7 +58,7 @@ $ cd example
 $ npm install
 $ (ios) cd ios
 $ (ios) pod install
-$ (ios) pod udpate SDWebImage
+$ (ios) pod update SDWebImage
 $ npm run android / npm run ios
 ```
 
