@@ -150,19 +150,10 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 
   function _getAlbum(): void {
     if (Platform.OS === 'ios') {
-      const getPhotoMax = 5000
-      CameraRoll.getPhotos({
-        first: getPhotoMax,
-        assetType,
-        groupTypes: 'All',
-      }).then((result) => {
-        const { length } = result.edges
-
-        _addFolderList({
-          title: 'All',
-          index: 0,
-          count: `${length}${length < getPhotoMax ? '' : '+'}`,
-        })
+      _addFolderList({
+        title: 'All',
+        index: 0,
+        count: '',
       })
     }
 
