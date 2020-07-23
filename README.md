@@ -62,6 +62,10 @@ $ (ios) pod update SDWebImage
 $ npm run android / npm run ios
 ```
 
+## Known Issue
+
+- [](IOS) No Recent album count
+
 ## :star: ETC
 
 - Typescript Support
