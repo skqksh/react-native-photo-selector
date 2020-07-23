@@ -18,8 +18,8 @@ const App = (): JSX.Element => {
         <CameraRollSelector
           callback={_callback}
           maximum={3}
-          assetType="Photos"
-          groupTypes="Album"
+          assetType="All"
+          groupTypes="SavedPhotos"
           loadingOption={{
             initialLoader: (
               <View>

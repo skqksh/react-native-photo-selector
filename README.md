@@ -56,7 +56,10 @@ $ git clone https://github.com/skqksh/react-native-photo-selector
 $ cd react-native-photo-selector@latest
 $ cd example
 $ npm install
-$ npm run android
+$ (ios) cd ios
+$ (ios) pod install
+$ (ios) pod udpate SDWebImage
+$ npm run android / npm run ios
 ```
 
 ## :star: ETC
