@@ -1,5 +1,11 @@
 import React from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  Platform,
+} from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { observer } from 'mobx-react'
 
@@ -16,6 +22,31 @@ export interface ItemProps {
   setZoomImage: React.Dispatch<
     React.SetStateAction<string | undefined>
   >
+}
+
+const ImageComp = ({
+  uri,
+  imageSize,
+}: {
+  uri: string
+  imageSize: number
+}): JSX.Element => {
+  return Platform.select({
+    ios: (
+      <Image
+        source={{ uri }}
+        style={{ height: imageSize, width: imageSize }}
+        resizeMode={'cover'}
+      />
+    ),
+    default: (
+      <FastImage
+        source={{ uri }}
+        style={{ height: imageSize, width: imageSize }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
+    ),
+  })
 }
 
 const Item = observer(
@@ -46,10 +77,11 @@ const Item = observer(
           setZoomImage(item.uri)
         }}
       >
-        <FastImage
-          source={{ uri: item.uri }}
-          style={{ height: imageSize, width: imageSize }}
-          resizeMode={FastImage.resizeMode.cover}
+        <ImageComp
+          {...{
+            uri: item.uri,
+            imageSize,
+          }}
         />
 
         <TouchableOpacity

@@ -4,9 +4,9 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native'
 import _ from 'lodash'
-import FastImage from 'react-native-fast-image'
 
 export interface FolderListProps {
   folderList?: FolderProps[]
@@ -58,10 +58,10 @@ const FolderList = ({
                     <Text>{item.count}</Text>
                   </View>
                   <View>
-                    <FastImage
+                    <Image
                       style={{ width: 50, height: 50 }}
                       source={{ uri: item.mainImageUrl }}
-                      resizeMode={FastImage.resizeMode.cover}
+                      resizeMode={'cover'}
                     />
                   </View>
                 </TouchableOpacity>
