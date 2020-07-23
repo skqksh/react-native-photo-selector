@@ -17,7 +17,7 @@ export interface FolderProps {
   title: string
   groupName?: string
   mainImageUrl: string
-  count: number
+  count: number | string
 }
 
 const FolderList = ({

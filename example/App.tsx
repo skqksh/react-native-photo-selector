@@ -19,7 +19,6 @@ const App = (): JSX.Element => {
           callback={_callback}
           maximum={3}
           assetType="All"
-          groupTypes="SavedPhotos"
           loadingOption={{
             initialLoader: (
               <View>
