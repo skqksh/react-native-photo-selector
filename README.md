@@ -64,7 +64,7 @@ $ npm run android / npm run ios
 
 ## Known Issue
 
-- [](IOS) No Recent album count
+- (IOS) Could count recent album only under 100
 
 ## :star: ETC
 
