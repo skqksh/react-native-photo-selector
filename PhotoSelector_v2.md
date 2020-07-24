@@ -23,7 +23,7 @@ $ npm i @react-native-community/cameraroll react-native-camera
 - Install component through npm
 
 ```
-$ npm i react-native-photo-selector
+$ npm i react-native-photo-selector@previous
 ```
 
 ## :bulb: Basic Usage
@@ -52,8 +52,8 @@ const Demo = () => {
 - To run the example app, you have to check the _permissions_ of the app
 
 ```
-$ git clone https://github.com/skqksh/react-native-photo-selector
-$ cd react-native-photo-selector@previous
+$ git clone https://github.com/skqksh/react-native-photo-selector.git
+$ cd react-native-photo-selector
 $ cd example
 $ npm install
 $ npm run android
