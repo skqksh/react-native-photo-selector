@@ -1,7 +1,7 @@
 {
   "name": "react-native-photo-selector",
   "description": "A React Native component providing images selection from camera roll ",
-  "version": "3.0.4",
+  "version": "3.0.5",
   "author": "blue",
   "dependencies": {
     "@react-native-community/cameraroll": "^4.0.0",
@@ -50,7 +50,10 @@
     "selector",
     "photo",
     "gallery",
-    "album"
+    "album",
+    "multiple",
+    "select",
+    "image"
   ],
   "license": "MIT",
   "main": "dist/index.js",
