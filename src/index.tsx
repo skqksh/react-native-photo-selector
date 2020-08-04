@@ -207,7 +207,6 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     CommonStore.localSelected = defaultLocaleSelected
     _setImageSize()
     _getAlbum()
-    fetch()
   }, [])
 
   useEffect(() => {

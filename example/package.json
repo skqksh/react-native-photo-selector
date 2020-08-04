@@ -20,7 +20,7 @@
     "react-native": "0.62.2",
     "react-native-camera": "^3.30.0",
     "react-native-fast-image": "^8.3.2",
-    "react-native-photo-selector": "^3.0.5"
+    "react-native-photo-selector": "^3.0.7"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
