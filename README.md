@@ -62,6 +62,10 @@ $ (ios) pod update SDWebImage
 $ npm run android / npm run ios
 ```
 
+## Update Log
+
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/V3/UpdateLog.md"><h3> :eyes: View update history</h3></a>
+
 ## Known Issue
 
 - (IOS) Could count recent album only under 100
