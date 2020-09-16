@@ -49,7 +49,7 @@ const Demo = () => {
 
 ## :calling: Run Example
 
-- To run the example app, you have to check the _permissions_ of the app
+:exclamation: To run the example app, you have to check the <b>_permissions_</b> of the app
 
 ```
 $ git clone https://github.com/skqksh/react-native-photo-selector.git
