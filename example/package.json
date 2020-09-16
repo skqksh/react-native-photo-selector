@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix"
   },
   "dependencies": {
-    "@react-native-community/cameraroll": "^4.0.0",
+    "@skqksh/cameraroll": "^4.0.1",
     "lodash": "^4.17.20",
     "mobx": "^5.15.6",
     "mobx-react": "^6.3.0",
