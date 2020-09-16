@@ -8,7 +8,7 @@ CameraRoll Picker component for React native
 
 ### :arrow_forward: usecamera(option)
 
-<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photo-selector-v3.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dyBBE4ybjwxColf7gaOWrv3dsOqXXKOa0u4rRgbe-bfrBlptj7z5eQ8Jn40ToPZzem8aL0P6DAfzzLA4bgozS16VN-6Pl3reA4Eu-uLJ1t4oIjNxhyr-zIOclb5Fsq4E57DjvTFGHVcyctJKBziarx=w222-h480-no?authuser=0" width="350"></a>
+<a href="https://github.com/skqksh/react-native-photo-selector/blob/master/demo/photo-selector-v3.gif"><img src="https://lh3.googleusercontent.com/pw/ACtC-3dWw6X12vngn6rzl-H9lYUYg2OtBFLFKfnPyeF7a78csVA4I8mcEV5YM5OKWSVRUScd3xKApx4qMqEcY7y8gj5oFI0AFtVW51SXyAMUky_Z8kFQQo2toQuu_F_Ve6DD9yg6ve3eSSN51pLyc8-HFqbB=w222-h480-no?authuser=0" width="350"></a>
 
 ## :heavy_plus_sign: Add to Project
 
