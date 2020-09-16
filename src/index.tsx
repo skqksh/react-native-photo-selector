@@ -12,7 +12,7 @@ import {
   Dimensions,
   Platform,
 } from 'react-native'
-import CameraRoll from '@react-native-community/cameraroll'
+import CameraRoll from '@skqksh/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
 import _ from 'lodash'
 
