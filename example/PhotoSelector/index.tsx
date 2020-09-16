@@ -15,7 +15,6 @@ import {
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
 import _ from 'lodash'
-import 'mobx-react-lite/batchingForReactDom'
 
 import CheckIcon from './components/CheckIcon'
 
