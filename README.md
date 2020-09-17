@@ -19,8 +19,9 @@ CameraRoll Picker component for React native
 ```
 $ npm i react-native-camera react-native-fast-image @react-native-community/cameraroll@git+https://github.com/skqksh/react-native-cameraroll.git
 ```
-<b>about : @react-native-community/cameraroll@git+https://github.com/skqksh/react-native-cameraroll.git</b>
- * Only IOS. With this version, you can take favorites album
+
+- :exclamation: about : @react-native-community/cameraroll@git+https://github.com/skqksh/react-native-cameraroll.git
+  - Only IOS. With this version, you can take favorites album
 
 - Install component through npm
 
