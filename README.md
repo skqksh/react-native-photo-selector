@@ -17,7 +17,7 @@ CameraRoll Picker component for React native
   - [react-native-cameraroll](https://github.com/react-native-community/react-native-cameraroll)
 
 ```
-$ npm i @skqksh/cameraroll react-native-camera react-native-fast-image
+$ npm i @react-native-community/cameraroll react-native-camera react-native-fast-image
 ```
 
 - Install component through npm

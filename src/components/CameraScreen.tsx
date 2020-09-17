@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 
 import { RNCamera, RNCameraProps } from 'react-native-camera'
-import CameraRoll from '@skqksh/cameraroll'
+import CameraRoll from '@react-native-community/cameraroll'
 
 export interface CameraScreenProps {
   cameraPreviewProps?: RNCameraProps
