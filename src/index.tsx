@@ -323,15 +323,18 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   return (
     <>
       <Header
-        {...headerOption}
+        headerContainerStyle={headerOption?.headerContainerStyle}
+        headerLeftStyle={headerOption?.headerLeftStyle}
         headerLeftComponent={
           headerOption?.headerLeftComponent || (
             <View style={{ width: 20 }} />
           )
         }
+        headerCenterStyle={headerOption?.headerCenterStyle}
         headerCenterComponent={
           headerOption?.headerCenterComponent || <HeaderCenter />
         }
+        headerRightStyle={headerOption?.headerRightStyle}
         headerRightComponent={
           headerOption?.headerRightComponent || (
             <CameraButton
