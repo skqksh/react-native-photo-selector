@@ -118,8 +118,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     setImageSize(
-      (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
-    )
+      (width - (imagesPerRow - 1) * imageMargin * 2)
+      / imagesPerRow
+    );
   }
 
   function _addFolderList(props: {
