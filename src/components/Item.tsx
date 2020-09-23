@@ -67,6 +67,8 @@ const Item = observer(
       onClick(item)
     }
 
+    const isSelected = selectedIndex > -1;
+
     return (
       <TouchableOpacity
         style={{
@@ -90,7 +92,7 @@ const Item = observer(
           }}
           style={styles.selectedMarkerTouchable}
         >
-          {selectedIndex > -1 ? (
+          {isSelected ? (
             selectedMarker(selectedIndex + 1)
           ) : (
             <View style={styles.selectMarker} />
