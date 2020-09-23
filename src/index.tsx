@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  Platform,
+  Platform,, StyleProp
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
@@ -40,6 +40,7 @@ export interface PhotoProps {
 interface ImageListProps {
   initialNumToRender?: number
   containerWidth?: number
+  containerStyle?: StyleProp<ViewStyle>
   ListEmptyComponent?: JSX.Element
   imagesPerRow?: number
   imageMargin?: number
@@ -348,9 +349,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         <>
           <FlatList
             ref={flatListRef}
-            contentContainerStyle={{
+            contentContainerStyle={[{
               padding: imageMargin,
-            }}
+            }, imageListOption?.containerStyle]}
             initialNumToRender={imageListOption?.initialNumToRender}
             onEndReachedThreshold={0.5}
             onEndReached={_onEndReached}
