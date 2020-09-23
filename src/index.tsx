@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
-  Platform,, StyleProp
+  Platform,
+  StyleProp,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
