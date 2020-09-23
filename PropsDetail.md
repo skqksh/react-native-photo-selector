@@ -30,11 +30,11 @@
 |                   | cameraCaptureIcon?: JSX.Element               | Circle mark                          |                                                              |
 |                   | }                                             |                                      |                                                              |
 | headerOption      | {                                             |                                      |                                                              |
-|                   | hearderContainerStyle?: ViewStyle             |                                      |                                                              |
-|                   | hearderLeftStyle?: ViewStyle                  |                                      |                                                              |
-|                   | hearderLeftComponent?: JSX.Element            |                                      |                                                              |
-|                   | hearderCenterStyle?: ViewStyle                |                                      |                                                              |
-|                   | hearderCenterComponent?: JSX.Element          | Menu text button                     | Text button for get album, you can choose a specific folder  |
-|                   | hearderRightStyle?: ViewStyle                 |                                      |                                                              |
-|                   | hearderRightComponent?: JSX.Element           | Photo image                          | Button to take photo                                         |
+|                   | headerContainerStyle?: ViewStyle             |                                      |                                                              |
+|                   | headerLeftStyle?: ViewStyle                  |                                      |                                                              |
+|                   | headerLeftComponent?: JSX.Element            |                                      |                                                              |
+|                   | headerCenterStyle?: ViewStyle                |                                      |                                                              |
+|                   | headerCenterComponent?: JSX.Element          | Menu text button                     | Text button for get album, you can choose a specific folder  |
+|                   | headerRightStyle?: ViewStyle                 |                                      |                                                              |
+|                   | headerRightComponent?: JSX.Element           | Photo image                          | Button to take photo                                         |
 |                   | }                                             |                                      |                                                              |

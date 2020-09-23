@@ -320,16 +320,16 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   return (
     <>
       <Header
-        hearderLeftComponent={
-          headerOption?.hearderLeftComponent || (
+        headerLeftComponent={
+          headerOption?.headerLeftComponent || (
             <View style={{ width: 20 }} />
           )
         }
-        hearderCenterComponent={
-          headerOption?.hearderCenterComponent || <HeaderCenter />
+        headerCenterComponent={
+          headerOption?.headerCenterComponent || <HeaderCenter />
         }
-        hearderRightComponent={
-          headerOption?.hearderRightComponent || (
+        headerRightComponent={
+          headerOption?.headerRightComponent || (
             <CameraButton
               {...{
                 takePhoto,
