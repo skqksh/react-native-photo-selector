@@ -322,6 +322,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   return (
     <>
       <Header
+        {...headerOption}
         headerLeftComponent={
           headerOption?.headerLeftComponent || (
             <View style={{ width: 20 }} />
