@@ -29,12 +29,17 @@ const App = (): JSX.Element => {
             ),
           }}
           imageListOption={{
+            imagesPerRow: 5,
+            imageMargin: 8,
             ListEmptyComponent: (
               <Text>
                 no photos... If there are any images in your album,
                 please check your app permissions
               </Text>
             ),
+          }}
+          zoomImageOption={{
+            isZoomEnabled: false,
           }}
         />
       </View>

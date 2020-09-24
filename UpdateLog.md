@@ -1,3 +1,10 @@
+## V3.3.0
+
+- fix typo in headerOption. ( hearder => header )
+  (contributed by Junho Yeo <hanaro0704@gmail.com>)
+- add option `isZoomEnabled` in zoomImageOption
+  (contributed by Junho Yeo <hanaro0704@gmail.com>)
+
 ## V3.2.0
 
 - revert @skqksh/cameraroll to @react-native-community/cameraroll

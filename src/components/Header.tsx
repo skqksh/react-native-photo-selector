@@ -2,37 +2,35 @@ import React from 'react'
 import { StyleSheet, View, ViewStyle } from 'react-native'
 
 export interface HeaderProps {
-  hearderContainerStyle?: ViewStyle
-  hearderLeftStyle?: ViewStyle
-  hearderLeftComponent?: JSX.Element
-  hearderCenterStyle?: ViewStyle
-  hearderCenterComponent?: JSX.Element
-  hearderRightStyle?: ViewStyle
-  hearderRightComponent?: JSX.Element
+  headerContainerStyle?: ViewStyle
+  headerLeftStyle?: ViewStyle
+  headerLeftComponent?: JSX.Element
+  headerCenterStyle?: ViewStyle
+  headerCenterComponent?: JSX.Element
+  headerRightStyle?: ViewStyle
+  headerRightComponent?: JSX.Element
 }
 
 const Header = (props: HeaderProps): JSX.Element => {
   return (
     <View
       style={[
-        styles.hearderContainerStyle,
-        props?.hearderContainerStyle,
+        styles.headerContainerStyle,
+        props?.headerContainerStyle,
       ]}
     >
-      <View
-        style={[styles.hearderLeftStyle, props?.hearderLeftStyle]}
-      >
-        {props?.hearderLeftComponent}
+      <View style={[styles.headerLeftStyle, props?.headerLeftStyle]}>
+        {props?.headerLeftComponent}
       </View>
       <View
-        style={[styles.hearderCenterStyle, props?.hearderCenterStyle]}
+        style={[styles.headerCenterStyle, props?.headerCenterStyle]}
       >
-        {props?.hearderCenterComponent}
+        {props?.headerCenterComponent}
       </View>
       <View
-        style={[styles.hearderRightStyle, props?.hearderRightStyle]}
+        style={[styles.headerRightStyle, props?.headerRightStyle]}
       >
-        {props?.hearderRightComponent}
+        {props?.headerRightComponent}
       </View>
     </View>
   )
@@ -41,18 +39,18 @@ const Header = (props: HeaderProps): JSX.Element => {
 export default Header
 
 const styles = StyleSheet.create({
-  hearderContainerStyle: {
+  headerContainerStyle: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 55,
     borderBottomWidth: 1,
     borderBottomColor: 'gray',
   },
-  hearderLeftStyle: {},
-  hearderCenterStyle: {
+  headerLeftStyle: {},
+  headerCenterStyle: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  hearderRightStyle: {},
+  headerRightStyle: {},
 })

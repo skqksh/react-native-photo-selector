@@ -19,6 +19,7 @@ export interface ItemProps {
   imageMargin: number
   imageSize: number
   onClick: (item: PhotoProps) => void
+  isZoomEnabled?: boolean
   setZoomImage: React.Dispatch<
     React.SetStateAction<string | undefined>
   >
@@ -56,6 +57,7 @@ const Item = observer(
     imageMargin,
     imageSize,
     onClick,
+    isZoomEnabled,
     setZoomImage,
   }: ItemProps): JSX.Element => {
     const { localSelected } = CommonStore
@@ -67,6 +69,8 @@ const Item = observer(
       onClick(item)
     }
 
+    const isSelected = selectedIndex > -1
+
     return (
       <TouchableOpacity
         style={{
@@ -74,7 +78,7 @@ const Item = observer(
           marginRight: imageMargin,
         }}
         onPress={(): void => {
-          setZoomImage(item.uri)
+          isZoomEnabled ? setZoomImage(item.uri) : onClick(item)
         }}
       >
         <ImageComp
@@ -90,7 +94,7 @@ const Item = observer(
           }}
           style={styles.selectedMarkerTouchable}
         >
-          {selectedIndex > -1 ? (
+          {isSelected ? (
             selectedMarker(selectedIndex + 1)
           ) : (
             <View style={styles.selectMarker} />

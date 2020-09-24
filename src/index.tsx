@@ -11,6 +11,7 @@ import {
   Image,
   Dimensions,
   Platform,
+  StyleProp,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
@@ -40,12 +41,14 @@ export interface PhotoProps {
 interface ImageListProps {
   initialNumToRender?: number
   containerWidth?: number
+  containerStyle?: StyleProp<ViewStyle>
   ListEmptyComponent?: JSX.Element
   imagesPerRow?: number
   imageMargin?: number
 }
 
 interface ZoomImageProps {
+  isZoomEnabled?: boolean
   closeButton?: JSX.Element
   closeContainerStyle?: ViewStyle
 }
@@ -102,6 +105,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   const [folderList, setForderList] = useState<FolderProps[]>([])
 
   const flatListRef = useRef<FlatList>(null)
+
+  const isZoomEnabled = zoomImageOption?.isZoomEnabled !== false
 
   const imagesPerRow = imageListOption?.imagesPerRow
     ? imageListOption.imagesPerRow
@@ -320,16 +325,20 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   return (
     <>
       <Header
-        hearderLeftComponent={
-          headerOption?.hearderLeftComponent || (
+        headerContainerStyle={headerOption?.headerContainerStyle}
+        headerLeftStyle={headerOption?.headerLeftStyle}
+        headerLeftComponent={
+          headerOption?.headerLeftComponent || (
             <View style={{ width: 20 }} />
           )
         }
-        hearderCenterComponent={
-          headerOption?.hearderCenterComponent || <HeaderCenter />
+        headerCenterStyle={headerOption?.headerCenterStyle}
+        headerCenterComponent={
+          headerOption?.headerCenterComponent || <HeaderCenter />
         }
-        hearderRightComponent={
-          headerOption?.hearderRightComponent || (
+        headerRightStyle={headerOption?.headerRightStyle}
+        headerRightComponent={
+          headerOption?.headerRightComponent || (
             <CameraButton
               {...{
                 takePhoto,
@@ -347,9 +356,12 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         <>
           <FlatList
             ref={flatListRef}
-            contentContainerStyle={{
-              padding: imageMargin,
-            }}
+            contentContainerStyle={[
+              {
+                padding: imageMargin,
+              },
+              imageListOption?.containerStyle,
+            ]}
             initialNumToRender={imageListOption?.initialNumToRender}
             onEndReachedThreshold={0.5}
             onEndReached={_onEndReached}
@@ -361,6 +373,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
                   selectedMarker,
                   imageSize,
                   onClick: selectImage,
+                  isZoomEnabled,
                   setZoomImage,
                 }}
               />
