@@ -78,9 +78,7 @@ const Item = observer(
           marginRight: imageMargin,
         }}
         onPress={(): void => {
-          isZoomEnabled
-            ? setZoomImage(item.uri)
-            : onClick(item)
+          isZoomEnabled ? setZoomImage(item.uri) : onClick(item)
         }}
       >
         <ImageComp

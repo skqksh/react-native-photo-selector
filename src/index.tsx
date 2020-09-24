@@ -106,9 +106,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
 
   const flatListRef = useRef<FlatList>(null)
 
-  const isZoomEnabled = zoomImageOption?.isZoomEnabled !== undefined
-    ? zoomImageOption?.isZoomEnabled
-    : true;
+  const isZoomEnabled = zoomImageOption?.isZoomEnabled !== false
+
   const imagesPerRow = imageListOption?.imagesPerRow
     ? imageListOption.imagesPerRow
     : 3
