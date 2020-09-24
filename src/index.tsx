@@ -120,7 +120,7 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     setImageSize(
-      (width - (imagesPerRow - 1) * imageMargin * 2) / imagesPerRow
+      (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
     )
   }
 
