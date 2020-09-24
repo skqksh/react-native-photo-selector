@@ -11,6 +11,7 @@ import {
   Image,
   Dimensions,
   Platform,
+  StyleProp,
 } from 'react-native'
 import CameraRoll from '@react-native-community/cameraroll'
 import ImageZoom from 'react-native-image-pan-zoom'
@@ -40,6 +41,7 @@ export interface PhotoProps {
 interface ImageListProps {
   initialNumToRender?: number
   containerWidth?: number
+  containerStyle?: StyleProp<ViewStyle>
   ListEmptyComponent?: JSX.Element
   imagesPerRow?: number
   imageMargin?: number
@@ -118,8 +120,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     setImageSize(
-      (width - (imagesPerRow + 1) * imageMargin) / imagesPerRow
-    )
+      (width - (imagesPerRow - 1) * imageMargin * 2)
+      / imagesPerRow
+    );
   }
 
   function _addFolderList(props: {
@@ -320,16 +323,20 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
   return (
     <>
       <Header
-        hearderLeftComponent={
-          headerOption?.hearderLeftComponent || (
+        headerContainerStyle={headerOption?.headerContainerStyle}
+        headerLeftStyle={headerOption?.headerLeftStyle}
+        headerLeftComponent={
+          headerOption?.headerLeftComponent || (
             <View style={{ width: 20 }} />
           )
         }
-        hearderCenterComponent={
-          headerOption?.hearderCenterComponent || <HeaderCenter />
+        headerCenterStyle={headerOption?.headerCenterStyle}
+        headerCenterComponent={
+          headerOption?.headerCenterComponent || <HeaderCenter />
         }
-        hearderRightComponent={
-          headerOption?.hearderRightComponent || (
+        headerRightStyle={headerOption?.headerRightStyle}
+        headerRightComponent={
+          headerOption?.headerRightComponent || (
             <CameraButton
               {...{
                 takePhoto,
@@ -347,9 +354,9 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         <>
           <FlatList
             ref={flatListRef}
-            contentContainerStyle={{
+            contentContainerStyle={[{
               padding: imageMargin,
-            }}
+            }, imageListOption?.containerStyle]}
             initialNumToRender={imageListOption?.initialNumToRender}
             onEndReachedThreshold={0.5}
             onEndReached={_onEndReached}
