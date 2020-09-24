@@ -67,7 +67,7 @@ const Item = observer(
       onClick(item)
     }
 
-    const isSelected = selectedIndex > -1;
+    const isSelected = selectedIndex > -1
 
     return (
       <TouchableOpacity

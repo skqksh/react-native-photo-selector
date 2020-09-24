@@ -120,9 +120,8 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
     }
 
     setImageSize(
-      (width - (imagesPerRow - 1) * imageMargin * 2)
-      / imagesPerRow
-    );
+      (width - (imagesPerRow - 1) * imageMargin * 2) / imagesPerRow
+    )
   }
 
   function _addFolderList(props: {
@@ -354,9 +353,12 @@ const PhotoSelector = (props: PhotoSelectorProps): JSX.Element => {
         <>
           <FlatList
             ref={flatListRef}
-            contentContainerStyle={[{
-              padding: imageMargin,
-            }, imageListOption?.containerStyle]}
+            contentContainerStyle={[
+              {
+                padding: imageMargin,
+              },
+              imageListOption?.containerStyle,
+            ]}
             initialNumToRender={imageListOption?.initialNumToRender}
             onEndReachedThreshold={0.5}
             onEndReached={_onEndReached}

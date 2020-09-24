@@ -19,9 +19,7 @@ const Header = (props: HeaderProps): JSX.Element => {
         props?.headerContainerStyle,
       ]}
     >
-      <View
-        style={[styles.headerLeftStyle, props?.headerLeftStyle]}
-      >
+      <View style={[styles.headerLeftStyle, props?.headerLeftStyle]}>
         {props?.headerLeftComponent}
       </View>
       <View
