@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/cameraroll": "git+https://github.com/skqksh/react-native-cameraroll.git",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "mobx": "^5.15.6",
     "mobx-react": "^6.3.0",
     "react": "^16.13.1",
