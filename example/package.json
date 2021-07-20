@@ -14,7 +14,7 @@
     "mobx-react": "^6.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-native": "^0.63.2",
+    "react-native": "^0.64.1",
     "react-native-camera": "^3.39.0",
     "react-native-fast-image": "^8.3.2",
     "react-native-photo-selector": "^3.3.0"
